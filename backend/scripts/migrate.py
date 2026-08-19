@@ -88,7 +88,14 @@ async def run(status_only: bool = False) -> int:
             # Cada migración va en su propia transacción: si una falla, las
             # anteriores quedan aplicadas y el registro es consistente.
             async with engine.begin() as conn:
-                await conn.exec_driver_sql(sql)
+                # ⚠️ No se puede usar exec_driver_sql: asyncpg envuelve todo en un
+                # prepared statement, y Postgres rechaza varias sentencias en uno
+                # ("cannot insert multiple commands into a prepared statement").
+                # La conexión cruda de asyncpg sí usa el protocolo de consulta
+                # simple, que acepta scripts completos con bloques $$ ... $$.
+                raw = await conn.get_raw_connection()
+                await raw.driver_connection.execute(sql)
+
                 await conn.execute(
                     text(
                         "insert into public.schema_migrations (filename, checksum) "

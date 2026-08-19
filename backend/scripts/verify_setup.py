@@ -152,6 +152,12 @@ def _check_langfuse() -> bool:
     try:
         from langfuse import get_client
 
+        from app.ai.observability import init_observability
+
+        # Sin esto el cliente arranca deshabilitado: el SDK lee os.environ y
+        # pydantic-settings no exporta el .env al entorno del proceso.
+        init_observability()
+
         client = get_client()
         if client.auth_check():
             print(f"  {OK} autenticado contra {settings.LANGFUSE_BASE_URL}")
