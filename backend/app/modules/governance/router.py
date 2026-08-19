@@ -21,6 +21,7 @@ from app.core.deps import CurrentUser, DbSession, require_role
 from app.core.enums import ContentStatus, UserRole
 from app.core.exceptions import Conflict, Forbidden, NotFound
 from app.db.models import Approval, Brand, ContentPiece, User, VisualAudit
+from app.ai.observability import traced
 from app.modules.governance.auditor import audit_image, model_label
 
 logger = logging.getLogger(__name__)
@@ -280,30 +281,20 @@ async def audit(
     if brand is None:
         raise NotFound("La marca no existe.")
 
-    trace_id = None
-    try:
-        from langfuse import get_client
-
-        lf = get_client()
-        with lf.start_as_current_span(name="visual_audit") as span:
-            trace_id = lf.get_current_trace_id()
-            resultado, rule_ids, latencia = await audit_image(
-                db, brand_id=brand_id, image_bytes=contenido,
-                mime_type=file.content_type or "image/png", focus=focus,
-            )
-            span.update(
-                output={
-                    "verdict": resultado.verdict,
-                    "findings": len(resultado.findings),
-                    "rules_checked": len(rule_ids),
-                },
-                metadata={"latency_ms": latencia},
-            )
-    except ImportError:
+    with traced("visual_audit", input={"brand": str(brand_id), "focus": focus}) as span:
         resultado, rule_ids, latencia = await audit_image(
             db, brand_id=brand_id, image_bytes=contenido,
             mime_type=file.content_type or "image/png", focus=focus,
         )
+        span.update(
+            output={
+                "verdict": resultado.verdict,
+                "findings": len(resultado.findings),
+                "rules_checked": len(rule_ids),
+            },
+            metadata={"latency_ms": latencia},
+        )
+        trace_id = span.trace_id
 
     # La imagen se guarda embebida como data URI. En producción iría a Supabase
     # Storage; para la evaluación evita depender de un bucket más.

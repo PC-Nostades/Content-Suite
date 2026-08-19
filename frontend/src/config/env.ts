@@ -19,8 +19,8 @@ export const env = {
 
   SHOW_DEMO_CREDENTIALS: bool(import.meta.env.VITE_SHOW_DEMO_CREDENTIALS, true),
 
-  ENABLE_MODULE_CONTENT: bool(import.meta.env.VITE_ENABLE_MODULE_CONTENT, false),
-  ENABLE_MODULE_GOVERNANCE: bool(import.meta.env.VITE_ENABLE_MODULE_GOVERNANCE, false),
+  ENABLE_MODULE_CONTENT: bool(import.meta.env.VITE_ENABLE_MODULE_CONTENT, true),
+  ENABLE_MODULE_GOVERNANCE: bool(import.meta.env.VITE_ENABLE_MODULE_GOVERNANCE, true),
 
   IS_DEV: import.meta.env.DEV,
 } as const

@@ -116,23 +116,16 @@ async def queue_regeneration(
 async def generate_and_index(manual_id: uuid.UUID, brand_id: uuid.UUID) -> None:
     """Tarea de fondo: genera el manual, lo indexa y lo publica.
 
-    Abre su propia sesión: la del request ya se cerró cuando devolvimos el 202.
+    Abre su propia sesión: la del request ya se cerró al devolver el 202.
     """
-    from langfuse import get_client
+    from app.ai.observability import traced
 
-    trace_id: str | None = None
     try:
-        lf = get_client()
-        with lf.start_as_current_span(name="brand_manual.generate") as span:
-            trace_id = lf.get_current_trace_id()
-            await _set_trace_id(manual_id, trace_id)
+        with traced("brand_manual.generate", input={"manual_id": str(manual_id)}) as span:
+            await _set_trace_id(manual_id, span.trace_id)
             await _run(manual_id, brand_id, span)
-    except Exception:
-        # Sin Langfuse configurado (o si falla), la generación debe correr igual.
-        try:
-            await _run(manual_id, brand_id, None)
-        except Exception as exc:  # noqa: BLE001
-            await _mark_failed(manual_id, exc)
+    except Exception as exc:  # noqa: BLE001
+        await _mark_failed(manual_id, exc)
 
 
 async def _set_trace_id(manual_id: uuid.UUID, trace_id: str | None) -> None:

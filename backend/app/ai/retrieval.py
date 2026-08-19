@@ -128,18 +128,16 @@ async def retrieve_rules(
 def _trace(query, modality, tipos, top_k, threshold, chunks, latencia_ms) -> None:
     """Registra en Langfuse qué se pidió y qué se recuperó.
 
-    Es el requisito literal del Módulo IV. Se hace aquí y no en los módulos que
-    llaman, para que ninguno pueda olvidarse de trazarlo.
+    Es el requisito literal del Módulo IV: «ver qué contexto se recuperó del RAG».
+    Se hace aquí y no en los módulos que llaman, para que ninguno pueda olvidarlo.
     """
     logger.info(
         "rag.retrieve · %d chunks en %d ms · modality=%s · query=%.60s",
         len(chunks), latencia_ms, modality.value if modality else "todas", query,
     )
-    try:
-        from langfuse import get_client
+    from app.ai.observability import traced
 
-        client = get_client()
-        span = client.start_span(name="rag.retrieve")
+    with traced("rag.retrieve", as_type="retriever") as span:
         span.update(
             input={
                 "query": query,
@@ -172,9 +170,6 @@ def _trace(query, modality, tipos, top_k, threshold, chunks, latencia_ms) -> Non
                 ),
             },
         )
-        span.end()
-    except Exception as exc:  # noqa: BLE001 — nunca romper por no poder trazar
-        logger.debug("No se pudo trazar rag.retrieve: %s", exc)
 
 
 async def get_hard_lexicon(db: AsyncSession, brand_id: uuid.UUID) -> dict:

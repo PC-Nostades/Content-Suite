@@ -17,6 +17,7 @@ trazas se pierden en silencio — sin error, solo sin datos.
 """
 
 import logging
+from contextlib import contextmanager
 
 from app.core.config import settings
 
@@ -76,6 +77,52 @@ def init_observability() -> None:
         logger.warning("Langfuse no pudo inicializarse (%s). Se continúa sin trazas.", exc)
 
     _initialized = True
+
+
+@contextmanager
+def traced(name: str, *, as_type: str = "span", **kwargs):
+    """Abre un span de Langfuse, o un no-op si la observabilidad no está activa.
+
+    Centraliza la llamada al SDK a propósito. La API de Langfuse ya cambió una vez
+    bajo nuestros pies (`start_as_current_span` → `start_as_current_observation`) y
+    estaba invocada desde cuatro sitios: con este envoltorio, el próximo cambio se
+    arregla en una línea.
+
+    Cede un objeto con `.update(...)` y una propiedad `.trace_id`, así el código
+    que llama no necesita comprobar si hay trazado activo.
+    """
+    if not settings.langfuse_enabled:
+        yield _NoopSpan()
+        return
+
+    try:
+        from langfuse import get_client
+
+        client = get_client()
+        with client.start_as_current_observation(name=name, as_type=as_type, **kwargs) as span:
+            yield _SpanHandle(span, client.get_current_trace_id())
+    except Exception as exc:  # noqa: BLE001 — nunca romper por no poder trazar
+        logger.debug("No se pudo abrir el span «%s»: %s", name, exc)
+        yield _NoopSpan()
+
+
+class _SpanHandle:
+    def __init__(self, span, trace_id: str | None) -> None:
+        self._span = span
+        self.trace_id = trace_id
+
+    def update(self, **kwargs) -> None:
+        try:
+            self._span.update(**kwargs)
+        except Exception as exc:  # noqa: BLE001
+            logger.debug("No se pudo actualizar el span: %s", exc)
+
+
+class _NoopSpan:
+    trace_id: str | None = None
+
+    def update(self, **kwargs) -> None:  # noqa: D102
+        return None
 
 
 def shutdown_observability() -> None:

@@ -12,6 +12,7 @@ from app.core.deps import CurrentUser, DbSession, require_role
 from app.core.enums import ManualStatus, UserRole
 from app.core.exceptions import Conflict, NotFound
 from app.db.models import Brand, ContentPiece, User
+from app.ai.observability import traced
 from app.modules.creative.graph import run_creative
 from app.modules.creative.schemas import ContentGenerateRequest, ContentOut
 
@@ -71,29 +72,7 @@ async def generate_content(
             "El Creative Engine necesita el manual como fuente de verdad."
         )
 
-    trace_id = None
-    try:
-        from langfuse import get_client
-
-        lf = get_client()
-        with lf.start_as_current_span(name="creative.generate") as span:
-            trace_id = lf.get_current_trace_id()
-            span.update(input={"type": payload.type, "brief": payload.brief})
-            resultado = await run_creative(
-                db,
-                brand_id=payload.brand_id,
-                content_type=payload.type,
-                channel=payload.channel,
-                brief=payload.brief,
-            )
-            span.update(
-                output={
-                    "rules_used": len(resultado["retrieved_rule_ids"]),
-                    "violations_fixed": len(resultado["fixed_violations"]),
-                    "repair_attempts": resultado["repair_attempts"],
-                }
-            )
-    except ImportError:
+    with traced("creative.generate", input={"type": payload.type, "brief": payload.brief}) as span:
         resultado = await run_creative(
             db,
             brand_id=payload.brand_id,
@@ -101,6 +80,14 @@ async def generate_content(
             channel=payload.channel,
             brief=payload.brief,
         )
+        span.update(
+            output={
+                "rules_used": len(resultado["retrieved_rule_ids"]),
+                "violations_fixed": len(resultado["fixed_violations"]),
+                "repair_attempts": resultado["repair_attempts"],
+            }
+        )
+        trace_id = span.trace_id
 
     pieza = ContentPiece(
         brand_id=brand.id,
