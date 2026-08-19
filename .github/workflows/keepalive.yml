@@ -1,0 +1,34 @@
+name: Keep Render awake
+
+# El web service del free tier de Render duerme tras 15 min sin tráfico y tarda
+# ~1 min en despertar. Este ping lo mantiene vivo durante la ventana de evaluación.
+#
+# ⚠️ Ventana horaria a propósito: el free tier da 750 h/mes por workspace y un mes
+# tiene 744. Mantenerlo despierto 24/7 consumiría el cupo entero, y pasarse
+# SUSPENDE todos los servicios gratis de la cuenta. 05:00–18:00 hora Perú ≈ 430 h/mes.
+#
+# ⚠️ El cron de GitHub Actions sufre retrasos de 5–30 min bajo carga. Por eso hay
+# que configurar TAMBIÉN un pinger externo (cron-job.org o UptimeRobot) cada 5 min:
+# dos pingers independientes es la única forma seria de garantizar el uptime.
+
+on:
+  schedule:
+    - cron: '*/10 10-23 * * *' # UTC ≈ 05:00–18:00 en Perú
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Despertar la API
+        run: |
+          URL="${{ vars.RENDER_API_URL || 'https://content-suite-api.onrender.com' }}/health"
+          for intento in 1 2 3; do
+            codigo=$(curl -s -o /dev/null -w "%{http_code}" --max-time 120 "$URL" || echo 000)
+            echo "intento $intento → HTTP $codigo"
+            [ "$codigo" = "200" ] && exit 0
+            sleep 20
+          done
+          # No se falla el workflow: un ping perdido no es un error del proyecto,
+          # y un workflow en rojo permanente se acaba ignorando.
+          echo "::warning::La API no respondió 200 tras 3 intentos"
