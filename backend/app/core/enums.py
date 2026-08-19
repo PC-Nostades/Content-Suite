@@ -75,6 +75,33 @@ class RuleType(str, Enum):
     compliance = "compliance"
 
 
+class ContentType(str, Enum):
+    product_description = "product_description"
+    video_script = "video_script"
+    image_prompt = "image_prompt"
+    social_post = "social_post"
+
+
+class ContentStatus(str, Enum):
+    """Flujo de gobernanza del Módulo III.
+
+    `pending_a` → revisión de texto (Aprobador A)
+    `pending_b` → auditoría visual (Aprobador B)
+    """
+
+    draft = "draft"
+    pending_a = "pending_a"
+    pending_b = "pending_b"
+    approved = "approved"
+    rejected = "rejected"
+
+
+class AuditVerdict(str, Enum):
+    passed = "pass"
+    warn = "warn"
+    fail = "fail"
+
+
 class Channel(str, Enum):
     packaging = "packaging"
     ecommerce_pdp = "ecommerce_pdp"
