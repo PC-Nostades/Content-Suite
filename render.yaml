@@ -1,0 +1,109 @@
+# =============================================================================
+# Content Suite — Blueprint de Render (API + SPA en un solo despliegue)
+#
+# Dashboard → New → Blueprint → conectar el repo → completar los `sync: false`.
+#
+# ⚠️ Si el nombre `content-suite-api` ya está tomado, Render asignará otro host:
+#    hay que actualizar el `destination` del rewrite de abajo con la URL real.
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------- API
+  - type: web
+    name: content-suite-api
+    runtime: python
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /health
+    autoDeploy: true
+    buildFilter:
+      # ⚠️ Los paths son relativos a la RAÍZ del repo aunque rootDir sea otro.
+      paths:
+        - backend/**
+        - render.yaml
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.13"
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+
+      # --- Auth ---
+      - key: JWT_SECRET
+        generateValue: true # Render genera un secreto de 256 bits
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_EXPIRE_MINUTES
+        value: "720"
+
+      # --- Secretos: se pegan en el dashboard, nunca en git ---
+      - key: DATABASE_URL
+        sync: false # Session Pooler de Supabase (postgresql+asyncpg://...pooler...:5432)
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: LANGFUSE_PUBLIC_KEY
+        sync: false
+      - key: LANGFUSE_SECRET_KEY
+        sync: false
+      - key: DEMO_PASSWORD
+        sync: false
+
+      # --- Modelos (sin prefijo "models/") ---
+      - key: GEMINI_TEXT_MODEL
+        value: gemini-3.7-flash
+      - key: GEMINI_VISION_MODEL
+        value: gemini-3.7-flash
+      - key: GEMINI_EMBEDDING_MODEL
+        value: gemini-embedding-2
+      - key: GEMINI_EMBEDDING_DIM
+        value: "1536" # <2000 → índice HNSW nativo de pgvector
+
+      - key: LANGFUSE_BASE_URL
+        value: https://cloud.langfuse.com
+      - key: LANGFUSE_TRACING_ENVIRONMENT
+        value: production
+
+      # Red de seguridad: con el proxy del static site no debería usarse ni un
+      # preflight, pero permite volver a cross-origin sin tocar código.
+      - key: CORS_ORIGINS
+        value: https://content-suite-web.onrender.com,http://localhost:5173
+
+  # ---------------------------------------------------------------- SPA
+  # Los static sites de Render NO duermen y NO consumen las 750 h de instancia:
+  # el shell de la app carga instantáneo aunque la API esté dormida.
+  - type: web
+    runtime: static
+    name: content-suite-web
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - frontend/**
+        - render.yaml
+    envVars:
+      # Ruta relativa ⇒ mismo origen ⇒ CORS desaparece por completo.
+      # Para volver a cross-origin: poner aquí la URL absoluta de la API.
+      - key: VITE_API_BASE_URL
+        value: /api/v1
+      - key: VITE_SHOW_DEMO_CREDENTIALS
+        value: "true"
+    routes:
+      # ⚠️ EL ORDEN IMPORTA. El proxy va PRIMERO; si el fallback SPA quedara
+      # arriba, se tragaría /api/* y la API dejaría de responder.
+      - type: rewrite
+        source: /api/*
+        destination: https://content-suite-api.onrender.com/api/*
+      - type: rewrite
+        source: /health
+        destination: https://content-suite-api.onrender.com/health
+      # Fallback SPA. Render no aplica la regla si existe un archivo en esa ruta,
+      # así que los assets de /assets/* se sirven normalmente.
+      - type: rewrite
+        source: /*
+        destination: /index.html
