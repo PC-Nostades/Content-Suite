@@ -9,6 +9,8 @@ import { ForbiddenPage, NotFoundPage } from '@/pages/ErrorPages'
 
 const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'))
 const BrandsListPage = lazy(() => import('@/features/brands/pages/BrandsListPage'))
+const BrandNewPage = lazy(() => import('@/features/brands/pages/BrandNewPage'))
+const BrandDetailPage = lazy(() => import('@/features/brands/pages/BrandDetailPage'))
 
 function Fallback() {
   return (
@@ -40,13 +42,15 @@ export const router = createBrowserRouter([
           { index: true, element: <Navigate to="/brands" replace /> },
           { path: 'brands', element: lazyEl(<BrandsListPage />) },
 
-          // Solo el Creador muta marcas. Guarda anidada, no repetida.
+          // Solo el Creador muta marcas. Guarda anidada, no repetida: una ruta
+          // nueva aquí hereda la protección sin que haya que recordar añadirla.
           {
             element: <ProtectedRoute allow={['creator']} />,
-            children: [
-              // { path: 'brands/new', element: lazyEl(<BrandNewPage />) },
-            ],
+            children: [{ path: 'brands/new', element: lazyEl(<BrandNewPage />) }],
           },
+
+          // Va DESPUÉS de 'brands/new' para que la ruta estática gane al param.
+          { path: 'brands/:brandId', element: lazyEl(<BrandDetailPage />) },
 
           // Módulo II  → { element: <ProtectedRoute allow={['creator']} />, children: [{ path: 'studio', ... }] }
           // Módulo III → { element: <ProtectedRoute allow={['approver_a','approver_b']} />, children: [{ path: 'review', ... }] }
