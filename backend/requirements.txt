@@ -16,8 +16,15 @@ pgvector>=0.3.6
 greenlet>=3.1
 
 # --- IA ---
-# google-genai reemplaza a google-generativeai (deprecado). Model ids SIN prefijo "models/".
+# Proveedor por defecto. Se eligió sobre Gemini porque su free tier limita a 20
+# peticiones AL DÍA por modelo, y el agente consume 4 por manual.
+openai>=2.0
+# Fallback documentado. google-genai reemplaza a google-generativeai (deprecado).
 google-genai>=1.0
+# Orquestación del Módulo II: el ciclo retrieve→generate→validate→repair tiene una
+# arista condicional, que es donde un grafo aporta sobre asyncio. Los nodos llaman
+# a app/ai/llm.py, así que NO entra langchain-openai.
+langgraph>=1.0
 
 # --- Observabilidad ---
 langfuse>=3.0

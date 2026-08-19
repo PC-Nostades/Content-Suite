@@ -8,17 +8,26 @@ def test_dimension_de_embedding_es_indexable_por_pgvector():
     """pgvector no puede construir un índice HNSW sobre el tipo `vector` con más
     de 2000 dimensiones. Con las 3072 por defecto de Gemini el índice NO se crea
     y el fallo aparecería recién al usar el RAG, no al insertar."""
-    assert settings.GEMINI_EMBEDDING_DIM <= 2000
+    assert settings.EMBEDDING_DIM <= 2000
 
 
-def test_los_model_ids_no_llevan_el_prefijo_models():
-    """El SDK google-genai espera 'gemini-3.7-flash', no 'models/gemini-3.7-flash'."""
+def test_los_model_ids_de_gemini_no_llevan_el_prefijo_models():
+    """El SDK google-genai espera 'gemini-3.5-flash', no 'models/gemini-3.5-flash'."""
     for model_id in (
         settings.GEMINI_TEXT_MODEL,
         settings.GEMINI_VISION_MODEL,
         settings.GEMINI_EMBEDDING_MODEL,
     ):
         assert not model_id.startswith("models/"), model_id
+
+
+def test_el_proveedor_activo_resuelve_sus_tres_modelos():
+    """Las propiedades de despacho deben devolver un id no vacío para el
+    proveedor configurado; si no, el agente fallaría en tiempo de ejecución."""
+    assert settings.text_model
+    assert settings.vision_model
+    assert settings.embedding_model
+    assert settings.LLM_PROVIDER in ("openai", "gemini")
 
 
 def test_cors_origins_se_parsea_y_no_deja_barra_final():

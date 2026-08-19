@@ -1,26 +1,24 @@
-"""Verificación de Fase 0: comprueba que todas las credenciales funcionan.
-
-Correr ANTES de escribir código que dependa de ellas:
+"""Verificación de configuración: comprueba que todas las credenciales funcionan.
 
     python scripts/verify_setup.py
 
-Comprueba, en orden y sin detenerse ante el primer fallo:
+Comprueba, sin detenerse ante el primer fallo:
   1. Que el DATABASE_URL apunte al Session Pooler (no a la conexión directa IPv6).
-  2. Que la BD responda y tenga la extensión pgvector.
-  3. Que los model ids de Gemini existan de verdad en la API.
+  2. Que la BD responda y tenga pgvector.
+  3. Que los model ids del proveedor activo existan de verdad.
   4. Que el modelo de embeddings devuelva la dimensión configurada.
-  5. Que Langfuse autentique (si está configurado).
+  5. Que Langfuse autentique.
 """
 
 import asyncio
 
-import _bootstrap  # noqa: F401  (efecto secundario: arregla el sys.path)
+import _bootstrap  # noqa: F401
 
 from app.core.config import settings
 
-OK = "\033[92m  OK \033[0m"
-FAIL = "\033[91mFALLA\033[0m"
-WARN = "\033[93m AVISO\033[0m"
+OK = "  OK  "
+FAIL = "FALLA "
+WARN = "AVISO "
 
 
 def _check_database_url() -> bool:
@@ -60,83 +58,94 @@ async def _check_database() -> bool:
                     text("select exists(select 1 from pg_extension where extname='vector')")
                 )
             ).scalar_one()
+            dim = (
+                await conn.execute(
+                    text(
+                        "select atttypmod from pg_attribute "
+                        "where attrelid = 'public.manual_chunks'::regclass and attname='embedding'"
+                    )
+                )
+            ).scalar_one_or_none()
 
         print(f"  {OK} {str(version).split(' on ')[0]}")
-        if has_vector:
-            print(f"  {OK} extensión pgvector instalada")
-        else:
-            print(f"  {FAIL} falta pgvector → ejecuta: create extension if not exists vector;")
+        print(f"  {OK if has_vector else FAIL} extensión pgvector")
+
+        if dim is not None and dim != settings.EMBEDDING_DIM:
+            print(
+                f"  {FAIL} la columna `embedding` es vector({dim}) pero EMBEDDING_DIM="
+                f"{settings.EMBEDDING_DIM}. Los inserts fallarían."
+            )
+            return False
+        if dim is not None:
+            print(f"  {OK} columna embedding = vector({dim}), coincide con EMBEDDING_DIM")
         return bool(has_vector)
     except Exception as exc:  # noqa: BLE001
         print(f"  {FAIL} {type(exc).__name__}: {exc}")
         return False
 
 
-def _check_gemini() -> bool:
-    print("\n[3/5] Modelos de Gemini")
-    if not settings.GEMINI_API_KEY:
-        print(f"  {FAIL} GEMINI_API_KEY vacía")
+async def _check_models() -> bool:
+    print(f"\n[3/5] Modelos del proveedor «{settings.LLM_PROVIDER}»")
+    if not settings.llm_api_key:
+        clave = "OPENAI_API_KEY" if settings.LLM_PROVIDER == "openai" else "GEMINI_API_KEY"
+        print(f"  {FAIL} {clave} vacía")
         return False
 
     try:
-        from google import genai
+        if settings.LLM_PROVIDER == "openai":
+            from app.ai.providers.openai_provider import get_client
 
-        client = genai.Client(api_key=settings.GEMINI_API_KEY)
-        disponibles = {m.name.removeprefix("models/") for m in client.models.list()}
+            client = get_client()
+            disponibles = {m.id async for m in client.models.list()}
+        else:
+            from app.ai.providers.gemini_provider import get_client
+
+            disponibles = {
+                m.name.removeprefix("models/") for m in get_client().models.list()
+            }
     except Exception as exc:  # noqa: BLE001
         print(f"  {FAIL} no se pudo listar modelos: {type(exc).__name__}: {exc}")
         return False
 
     todo_ok = True
     for etiqueta, model_id in [
-        ("texto", settings.GEMINI_TEXT_MODEL),
-        ("visión", settings.GEMINI_VISION_MODEL),
-        ("embeddings", settings.GEMINI_EMBEDDING_MODEL),
+        ("texto", settings.text_model),
+        ("visión", settings.vision_model),
+        ("embeddings", settings.embedding_model),
     ]:
-        if model_id.startswith("models/"):
-            print(f"  {FAIL} {etiqueta}: '{model_id}' lleva el prefijo 'models/' — quítalo")
-            todo_ok = False
-        elif model_id in disponibles:
+        if model_id in disponibles:
             print(f"  {OK} {etiqueta}: {model_id}")
         else:
             print(f"  {FAIL} {etiqueta}: '{model_id}' no existe en la API")
+            sugerencias = sorted(
+                m for m in disponibles
+                if ("embedding" in m) == ("embedding" in model_id)
+            )[:6]
+            if sugerencias:
+                print(f"         disponibles: {', '.join(sugerencias)}")
             todo_ok = False
     return todo_ok
 
 
-def _check_embedding_dim() -> bool:
+async def _check_embedding_dim() -> bool:
     print("\n[4/5] Dimensión de embeddings")
-    if settings.GEMINI_EMBEDDING_DIM > 2000:
+    if settings.EMBEDDING_DIM > 2000:
         print(
-            f"  {FAIL} {settings.GEMINI_EMBEDDING_DIM} dims: pgvector no puede indexar "
-            "más de 2000 con el tipo `vector`. El índice HNSW fallaría."
+            f"  {FAIL} {settings.EMBEDDING_DIM} dims: pgvector no puede indexar más de "
+            "2000 con el tipo `vector`. El índice HNSW no se crearía."
         )
         return False
 
     try:
-        from google import genai
-        from google.genai import types
+        from app.ai.embeddings import embed_query
 
-        client = genai.Client(api_key=settings.GEMINI_API_KEY)
-        resp = client.models.embed_content(
-            model=settings.GEMINI_EMBEDDING_MODEL,
-            contents="prueba de dimensionalidad",
-            config=types.EmbedContentConfig(
-                output_dimensionality=settings.GEMINI_EMBEDDING_DIM
-            ),
-        )
-        vec = resp.embeddings[0].values
+        vec = await embed_query("prueba de dimensionalidad")
         norma = sum(v * v for v in vec) ** 0.5
-
-        if len(vec) != settings.GEMINI_EMBEDDING_DIM:
-            print(f"  {FAIL} se pidieron {settings.GEMINI_EMBEDDING_DIM} dims y llegaron {len(vec)}")
-            return False
-
         print(f"  {OK} {len(vec)} dims · norma L2 = {norma:.4f}")
         if abs(norma - 1.0) > 0.01:
             print(
-                f"  {WARN} el vector NO viene normalizado (norma {norma:.4f}). "
-                "Hay que normalizar en app/ai/embeddings.py o la distancia coseno se degrada."
+                f"  {WARN} el vector NO viene normalizado (norma {norma:.4f}); "
+                "la distancia coseno se degradaría."
             )
         return True
     except Exception as exc:  # noqa: BLE001
@@ -154,12 +163,8 @@ def _check_langfuse() -> bool:
 
         from app.ai.observability import init_observability
 
-        # Sin esto el cliente arranca deshabilitado: el SDK lee os.environ y
-        # pydantic-settings no exporta el .env al entorno del proceso.
         init_observability()
-
-        client = get_client()
-        if client.auth_check():
+        if get_client().auth_check():
             print(f"  {OK} autenticado contra {settings.LANGFUSE_BASE_URL}")
             return True
         print(f"  {FAIL} auth_check() falló — revisa las claves y LANGFUSE_BASE_URL")
@@ -171,20 +176,20 @@ def _check_langfuse() -> bool:
 
 async def main() -> int:
     print("=" * 70)
-    print("  Content Suite — Verificación de configuración (Fase 0)")
+    print("  Content Suite — Verificación de configuración")
     print("=" * 70)
 
     resultados = [
         _check_database_url(),
         await _check_database(),
-        _check_gemini(),
-        _check_embedding_dim(),
+        await _check_models(),
+        await _check_embedding_dim(),
         _check_langfuse(),
     ]
 
     print("\n" + "=" * 70)
     if all(resultados):
-        print("  Todo listo. Puedes correr las migraciones y arrancar la API.")
+        print("  Todo listo.")
         return 0
     print(f"  {sum(not r for r in resultados)} de {len(resultados)} comprobaciones fallaron.")
     return 1

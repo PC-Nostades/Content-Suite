@@ -9,6 +9,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.ai.observability import init_observability, shutdown_observability
 from app.api import api_router
 from app.core.config import settings
 from app.core.exceptions import AppError
@@ -27,13 +28,27 @@ _STARTED_AT = time.monotonic()
 async def lifespan(app: FastAPI):
     logger.info("Arrancando Content Suite API v%s (%s)", settings.APP_VERSION, settings.APP_ENV)
     logger.info(
-        "Modelos: texto=%s · visión=%s · embeddings=%s (%d dims)",
-        settings.GEMINI_TEXT_MODEL,
-        settings.GEMINI_VISION_MODEL,
-        settings.GEMINI_EMBEDDING_MODEL,
-        settings.GEMINI_EMBEDDING_DIM,
+        "Proveedor LLM: %s · texto=%s · visión=%s · embeddings=%s (%d dims)",
+        settings.LLM_PROVIDER,
+        settings.text_model,
+        settings.vision_model,
+        settings.embedding_model,
+        settings.EMBEDDING_DIM,
     )
+    init_observability()
+
+    # `BackgroundTasks` vive en el proceso: un redeploy de Render mata las
+    # generaciones en curso. Sin esta reconciliación esas marcas quedarían
+    # «generando» para siempre y el frontend haría polling eternamente.
+    try:
+        from app.modules.brand_dna.service import reconcile_stale_generations
+
+        await reconcile_stale_generations()
+    except Exception as exc:  # noqa: BLE001 — no impedir el arranque por esto
+        logger.warning("No se pudo reconciliar generaciones huérfanas: %s", exc)
+
     yield
+    shutdown_observability()
     # Cerrar el pool explícitamente: Render duerme el proceso y las conexiones
     # colgadas contra el pooler de Supabase tardan en liberarse.
     await engine.dispose()
@@ -140,7 +155,8 @@ async def health_ready() -> JSONResponse:
     body = {
         "status": "ok" if db_ok else "degraded",
         "db": "ok" if db_ok else "error",
-        "gemini": "configured" if settings.GEMINI_API_KEY else "missing_key",
+        "llm_provider": settings.LLM_PROVIDER,
+        "llm": "configured" if settings.llm_api_key else "missing_key",
         "langfuse": "configured" if settings.langfuse_enabled else "disabled",
     }
     return JSONResponse(status_code=200 if db_ok else 503, content=body)

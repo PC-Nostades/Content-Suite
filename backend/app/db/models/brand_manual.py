@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import ForeignKey, Integer, String, Text
+from sqlalchemy import DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.dialects.postgresql import ENUM as PGEnum
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
@@ -62,7 +62,12 @@ class BrandManual(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     created_by: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), ForeignKey("users.id", ondelete="RESTRICT"), nullable=False
     )
-    published_at: Mapped[datetime | None] = mapped_column(nullable=True)
+    #: `timezone=True` es obligatorio: la columna real es `timestamptz` y sin esto
+    #: SQLAlchemy la mapea a TIMESTAMP WITHOUT TIME ZONE, y asyncpg rechaza un
+    #: datetime con tzinfo ("can't subtract offset-naive and offset-aware").
+    published_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
 
     brand: Mapped["Brand"] = relationship(back_populates="manuals")  # noqa: F821
     chunks: Mapped[list["ManualChunk"]] = relationship(  # noqa: F821

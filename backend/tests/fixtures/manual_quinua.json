@@ -1,0 +1,806 @@
+{
+  "schema_version": "1.0",
+  "executive_summary": "Kiwicha Pop es un snack de quinua inflada de Puno, sin azúcar añadida, que le habla de tú a la Gen Z limeña con humor y sin tecnicismos.",
+  "strategy": {
+    "brand_name": "Kiwicha Pop",
+    "category": "snack saludable de quinua inflada",
+    "mission": "Hacer que el grano andino sea el snack diario de una generación que se mueve rápido.",
+    "positioning_statement": "Para universitarios limeños de 18 a 26 que entrenan y comen fuera de casa, Kiwicha Pop es el snack andino inflado que da energía sostenida porque usa quinua de Puno sin azúcar añadida.",
+    "value_proposition": "Energía andina real, en un formato que cabe en el bolsillo del jean.",
+    "brand_archetype": "bufon",
+    "personality_traits": [
+      "divertida",
+      "auténtica",
+      "enérgica",
+      "orgullosamente andina"
+    ],
+    "differentiators": [
+      "Quinua de Puno trazable por lote",
+      "Sin azúcar añadida, endulzado solo con fruta",
+      "Formato de 30 g pensado para mochila"
+    ],
+    "competitor_contrast": [
+      "No es una barra de cereal disfrazada de saludable",
+      "No es un producto fitness que le habla a atletas de élite",
+      "No es artesanía nostálgica: es andino contemporáneo"
+    ]
+  },
+  "audiences": [
+    {
+      "label": "Gen Z urbana limeña",
+      "age_range": "18-26",
+      "description": "Universitarios y jóvenes profesionales de Lima que entrenan 3 veces por semana y comen al menos una vez al día fuera de casa.",
+      "psychographics": [
+        "Valora la autenticidad por encima de la perfección",
+        "Desconfía del marketing que le habla como a un niño",
+        "Le importa el origen de lo que consume, sin volverlo religión"
+      ],
+      "jobs_to_be_done": [
+        "Matar el hambre entre clases sin sentirse pesado",
+        "Sentir que come bien sin hacer un esfuerzo consciente",
+        "Mostrar buen gusto en lo que lleva en la mochila"
+      ],
+      "pain_points": [
+        "Los snacks saludables saben a cartón",
+        "Los que saben bien tienen demasiada azúcar"
+      ],
+      "cultural_codes": [
+        "Jerga limeña cotidiana sin caer en la caricatura",
+        "Orgullo por el ingrediente peruano, sin folclorismo",
+        "Humor autoconsciente, del tipo que circula en TikTok"
+      ],
+      "media_habits": [
+        "tiktok",
+        "instagram",
+        "packaging"
+      ]
+    }
+  ],
+  "verbal": {
+    "tone_attributes": [
+      {
+        "name": "Cómplice",
+        "definition": "Habla de igual a igual, como quien comparte un dato bueno.",
+        "intensity": 4,
+        "sounds_like": "Te va a durar hasta la última clase. En serio.",
+        "does_not_sound_like": "Nuestro producto ha sido formulado para brindarle saciedad."
+      },
+      {
+        "name": "Directo",
+        "definition": "Va al punto en la primera línea. Nada de rodeos.",
+        "intensity": 5,
+        "sounds_like": "Quinua de Puno. Sin azúcar añadida. Punto.",
+        "does_not_sound_like": "En Kiwicha Pop creemos que la alimentación es un viaje..."
+      },
+      {
+        "name": "Con humor",
+        "definition": "Se ríe de sí misma antes que de nadie más.",
+        "intensity": 3,
+        "sounds_like": "Sí, es quinua. No, no sabe a castigo.",
+        "does_not_sound_like": "Un snack serio para personas serias."
+      }
+    ],
+    "voice_spectrum": {
+      "formal_vs_casual": 85,
+      "serious_vs_playful": 75,
+      "respectful_vs_irreverent": 60,
+      "factual_vs_enthusiastic": 55
+    },
+    "preferred_terms": [
+      {
+        "use": "energía que dura",
+        "instead_of": [
+          "energizante"
+        ],
+        "rationale": "'Energizante' es claim regulado."
+      },
+      {
+        "use": "sin azúcar añadida",
+        "instead_of": [
+          "light",
+          "dietético"
+        ],
+        "rationale": "Es literal y verificable."
+      },
+      {
+        "use": "quinua de Puno",
+        "instead_of": [
+          "superalimento andino"
+        ],
+        "rationale": "Específico, no grandilocuente."
+      },
+      {
+        "use": "te llena",
+        "instead_of": [
+          "produce saciedad"
+        ],
+        "rationale": "Habla como el público."
+      },
+      {
+        "use": "crocante",
+        "instead_of": [
+          "textura crujiente óptima"
+        ],
+        "rationale": "Una palabra basta."
+      },
+      {
+        "use": "para la mochila",
+        "instead_of": [
+          "formato portable"
+        ],
+        "rationale": "Concreto y visual."
+      },
+      {
+        "use": "grano entero",
+        "instead_of": [
+          "integral"
+        ],
+        "rationale": "Menos ambiguo en etiqueta."
+      },
+      {
+        "use": "hecho en Perú",
+        "instead_of": [
+          "producto nacional"
+        ],
+        "rationale": "Directo y con orgullo."
+      }
+    ],
+    "forbidden_terms": [
+      {
+        "term": "light",
+        "reason": "Claim regulado que exige respaldo nutricional.",
+        "severity": "hard",
+        "replacement": "sin azúcar añadida",
+        "match_mode": "exact"
+      },
+      {
+        "term": "milagroso",
+        "reason": "Promesa imposible de sostener.",
+        "severity": "hard",
+        "replacement": "que funciona",
+        "match_mode": "stem"
+      },
+      {
+        "term": "adelgaz",
+        "reason": "Atribuye efecto de pérdida de peso; prohibido en alimentos.",
+        "severity": "hard",
+        "replacement": "te acompaña en tu rutina",
+        "match_mode": "stem"
+      },
+      {
+        "term": "superalimento",
+        "reason": "Término vacío y sobreexplotado por la categoría.",
+        "severity": "soft",
+        "replacement": "quinua de Puno",
+        "match_mode": "exact"
+      },
+      {
+        "term": "biodisponibilidad",
+        "reason": "Tecnicismo que rompe el tono cómplice.",
+        "severity": "soft",
+        "replacement": "tu cuerpo lo aprovecha",
+        "match_mode": "exact"
+      },
+      {
+        "term": "delicioso",
+        "reason": "Adjetivo genérico de la categoría; no dice nada.",
+        "severity": "soft",
+        "replacement": "crocante",
+        "match_mode": "exact"
+      },
+      {
+        "term": "estimado cliente",
+        "reason": "Trato distante que contradice el tono.",
+        "severity": "hard",
+        "replacement": "tú",
+        "match_mode": "exact"
+      },
+      {
+        "term": "gratis",
+        "reason": "Uso indebido en promociones con condiciones.",
+        "severity": "soft",
+        "replacement": "incluido",
+        "match_mode": "exact"
+      }
+    ],
+    "forbidden_claims": [
+      {
+        "term": "cura",
+        "reason": "Atribuir propiedades curativas a un alimento es ilegal.",
+        "severity": "hard",
+        "replacement": "aporta",
+        "match_mode": "stem"
+      },
+      {
+        "term": "100% natural",
+        "reason": "Requiere sustento técnico verificable.",
+        "severity": "hard",
+        "replacement": "con ingredientes de origen vegetal",
+        "match_mode": "exact"
+      },
+      {
+        "term": "el mejor del mercado",
+        "reason": "Comparación no demostrable ante INDECOPI.",
+        "severity": "hard",
+        "replacement": "nuestro favorito",
+        "match_mode": "exact"
+      },
+      {
+        "term": "previene",
+        "reason": "Claim de salud no autorizado.",
+        "severity": "hard",
+        "replacement": "acompaña",
+        "match_mode": "stem"
+      }
+    ],
+    "grammar_style": {
+      "locale": "es-PE",
+      "person": "tu",
+      "max_sentence_words": 18,
+      "max_paragraph_sentences": 3,
+      "reading_level": "basico",
+      "emoji_policy": "limitado",
+      "allowed_emojis": [
+        "🔥",
+        "💥",
+        "🌾"
+      ],
+      "exclamation_policy": "Máximo un signo de exclamación por pieza.",
+      "capitalization_rules": [
+        "Nunca escribir en MAYÚSCULAS sostenidas salvo el logotipo."
+      ],
+      "anglicism_policy": "Evitar anglicismos salvo los ya integrados al habla limeña.",
+      "numbers_and_units": "Usar cifras para gramos y porcentajes: 30 g, 12 %."
+    },
+    "messaging_pillars": [
+      {
+        "name": "Energía que dura",
+        "description": "El grano andino libera energía de forma sostenida.",
+        "proof_points": [
+          "Quinua de grano entero",
+          "Sin azúcar añadida"
+        ],
+        "sample_headlines": [
+          "Te dura hasta la última clase",
+          "Energía que no se cae a media tarde"
+        ]
+      },
+      {
+        "name": "Origen con nombre",
+        "description": "Cada lote es trazable hasta su comunidad productora en Puno.",
+        "proof_points": [
+          "Trazabilidad por lote",
+          "Compra directa a productores"
+        ],
+        "sample_headlines": [
+          "Sabemos de qué chacra salió",
+          "Quinua con apellido"
+        ]
+      },
+      {
+        "name": "Andino contemporáneo",
+        "description": "Lo peruano no tiene que verse antiguo para ser auténtico.",
+        "proof_points": [
+          "Diseño gráfico contemporáneo",
+          "Formato urbano de 30 g"
+        ],
+        "sample_headlines": [
+          "Andino, no arcaico",
+          "De Puno a tu mochila"
+        ]
+      }
+    ],
+    "taglines": [
+      "Energía andina, ritmo urbano",
+      "De Puno a tu mochila",
+      "Quinua con apellido"
+    ],
+    "boilerplate": "Kiwicha Pop es un snack de quinua inflada hecho con grano entero de Puno, sin azúcar añadida, en formato de 30 g.",
+    "channel_guidelines": [
+      {
+        "channel": "tiktok",
+        "max_chars": 150,
+        "structure": "hook (1 línea) → beneficio → CTA",
+        "cta_style": "Invitación directa en segunda persona.",
+        "hashtag_policy": "Máximo 3, siempre en minúsculas.",
+        "tone_adjustment": "Sube el humor un punto."
+      },
+      {
+        "channel": "instagram",
+        "max_chars": 280,
+        "structure": "gancho → contexto → CTA",
+        "cta_style": "Pregunta abierta al final.",
+        "hashtag_policy": "Máximo 5, agrupados al final.",
+        "tone_adjustment": "Mantiene el tono base."
+      },
+      {
+        "channel": "packaging",
+        "max_chars": 90,
+        "structure": "beneficio → origen → gramaje",
+        "cta_style": "Sin CTA: el empaque informa.",
+        "hashtag_policy": "Sin hashtags.",
+        "tone_adjustment": "Baja el humor: prima la claridad legal."
+      }
+    ],
+    "verbal_rules": [
+      {
+        "id": "verbal.text.escribe_siempre_en_segunda_p",
+        "statement": "Escribe siempre en segunda persona del singular (tú).",
+        "rationale": "El tono cómplice exige tratar de tú.",
+        "severity": "hard",
+        "modality": "text",
+        "channel_scope": [],
+        "good_example": "Te va a durar toda la mañana.",
+        "bad_example": "Le durará toda la mañana.",
+        "check_hint": "Buscar 'usted', 'le', 'su' como tratamiento formal."
+      },
+      {
+        "id": "verbal.text.limita_cada_oracion_a_18_pal",
+        "statement": "Limita cada oración a 18 palabras.",
+        "rationale": "El público lee en móvil y en movimiento.",
+        "severity": "soft",
+        "modality": "text",
+        "channel_scope": [],
+        "good_example": "Quinua de Puno. Sin azúcar añadida.",
+        "bad_example": "Un snack elaborado con quinua seleccionada de la región de Puno que ha sido cuidadosamente inflada.",
+        "check_hint": "Contar palabras por oración; ninguna debe superar 18."
+      },
+      {
+        "id": "verbal.text.no_uses_tecnicismos_nutricio",
+        "statement": "No uses tecnicismos nutricionales sin traducirlos.",
+        "rationale": "Rompen el tono y excluyen al lector.",
+        "severity": "hard",
+        "modality": "text",
+        "channel_scope": [],
+        "good_example": "Tu cuerpo lo aprovecha mejor.",
+        "bad_example": "Alta biodisponibilidad proteica.",
+        "check_hint": "Buscar términos técnicos sin una explicación coloquial adyacente."
+      },
+      {
+        "id": "verbal.text.menciona_el_origen_puno_al_m",
+        "statement": "Menciona el origen (Puno) al menos una vez por pieza larga.",
+        "rationale": "Es el diferenciador principal.",
+        "severity": "soft",
+        "modality": "text",
+        "channel_scope": [],
+        "good_example": "Quinua de Puno, inflada como cancha.",
+        "bad_example": "Quinua de los Andes.",
+        "check_hint": "Verificar presencia de 'Puno' en textos de más de 200 caracteres."
+      },
+      {
+        "id": "verbal.both.nunca_prometas_resultados_de",
+        "statement": "Nunca prometas resultados de salud o pérdida de peso.",
+        "rationale": "Riesgo regulatorio directo.",
+        "severity": "hard",
+        "modality": "both",
+        "channel_scope": [],
+        "good_example": "Energía para tu rutina.",
+        "bad_example": "Te ayuda a bajar de peso.",
+        "check_hint": "Buscar verbos de efecto fisiológico: adelgaza, cura, previene, quema."
+      },
+      {
+        "id": "verbal.text.usa_como_maximo_un_signo_de",
+        "statement": "Usa como máximo un signo de exclamación por pieza.",
+        "rationale": "Más de uno suena a publicidad gritada.",
+        "severity": "soft",
+        "modality": "text",
+        "channel_scope": [],
+        "good_example": "Te va a encantar. En serio.",
+        "bad_example": "¡Increíble! ¡Delicioso! ¡Único!",
+        "check_hint": "Contar caracteres '!' en la pieza; deben ser 0 o 1."
+      },
+      {
+        "id": "verbal.both.no_escribas_en_mayusculas_so",
+        "statement": "No escribas en mayúsculas sostenidas fuera del logotipo.",
+        "rationale": "Grita y perjudica la legibilidad.",
+        "severity": "hard",
+        "modality": "both",
+        "channel_scope": [],
+        "good_example": "Energía andina",
+        "bad_example": "ENERGÍA ANDINA",
+        "check_hint": "Detectar palabras de 4+ caracteres en mayúsculas fuera del logo."
+      },
+      {
+        "id": "verbal.text.cierra_los_textos_de_redes_c",
+        "statement": "Cierra los textos de redes con una invitación, no con una orden.",
+        "rationale": "El arquetipo bufón invita, no manda.",
+        "severity": "soft",
+        "modality": "text",
+        "channel_scope": [],
+        "good_example": "¿Lo pruebas?",
+        "bad_example": "¡Compra ahora!",
+        "check_hint": "Revisar la última oración: no debe ser imperativo de compra."
+      }
+    ]
+  },
+  "visual": {
+    "color_palette": [
+      {
+        "name": "Naranja Cancha",
+        "hex": "#E8552D",
+        "role": "primary",
+        "usage_notes": "Color de marca. Fondos plenos y titulares.",
+        "max_area_pct": 45,
+        "pairs_well_with": [
+          "#1C1B19"
+        ],
+        "never_pair_with": [
+          "#C2185B"
+        ]
+      },
+      {
+        "name": "Negro Chacra",
+        "hex": "#1C1B19",
+        "role": "neutral",
+        "usage_notes": "Tipografía principal y fondos oscuros.",
+        "max_area_pct": 60,
+        "pairs_well_with": [
+          "#F5EFE3",
+          "#E8552D"
+        ],
+        "never_pair_with": []
+      },
+      {
+        "name": "Crema Grano",
+        "hex": "#F5EFE3",
+        "role": "background",
+        "usage_notes": "Fondo por defecto de piezas informativas.",
+        "max_area_pct": 100,
+        "pairs_well_with": [
+          "#1C1B19"
+        ],
+        "never_pair_with": []
+      },
+      {
+        "name": "Verde Puno",
+        "hex": "#2E7D32",
+        "role": "secondary",
+        "usage_notes": "Solo para sellos de origen y trazabilidad.",
+        "max_area_pct": 20,
+        "pairs_well_with": [
+          "#F5EFE3"
+        ],
+        "never_pair_with": [
+          "#E8552D"
+        ]
+      },
+      {
+        "name": "Amarillo Sol",
+        "hex": "#F2B705",
+        "role": "accent",
+        "usage_notes": "Destacados puntuales. Nunca como fondo completo.",
+        "max_area_pct": 15,
+        "pairs_well_with": [
+          "#1C1B19"
+        ],
+        "never_pair_with": [
+          "#F5EFE3"
+        ]
+      }
+    ],
+    "forbidden_colors": [
+      {
+        "name": "Rosa Pastel",
+        "hex": "#F8BBD0",
+        "role": "accent",
+        "usage_notes": "Contradice el carácter enérgico de la marca.",
+        "max_area_pct": 0,
+        "pairs_well_with": [],
+        "never_pair_with": []
+      }
+    ],
+    "typography": [
+      {
+        "family": "Archivo Black",
+        "fallback": "system-ui, sans-serif",
+        "role": "headline",
+        "weights": [
+          "900"
+        ],
+        "min_size_px_digital": 28,
+        "min_size_pt_print": 18,
+        "line_height": "1.05",
+        "letter_spacing": "-0.02em",
+        "case_rules": "Título en mayúscula inicial. Nunca todo en mayúsculas."
+      },
+      {
+        "family": "Inter",
+        "fallback": "system-ui, sans-serif",
+        "role": "body",
+        "weights": [
+          "400",
+          "600"
+        ],
+        "min_size_px_digital": 14,
+        "min_size_pt_print": 9,
+        "line_height": "1.5",
+        "letter_spacing": "0",
+        "case_rules": "Mayúscula inicial de oración."
+      },
+      {
+        "family": "Inter",
+        "fallback": "system-ui, sans-serif",
+        "role": "legal",
+        "weights": [
+          "400"
+        ],
+        "min_size_px_digital": 10,
+        "min_size_pt_print": 6,
+        "line_height": "1.3",
+        "letter_spacing": "0.01em",
+        "case_rules": "Mayúscula inicial de oración."
+      }
+    ],
+    "forbidden_fonts": [
+      "Comic Sans MS",
+      "Papyrus",
+      "Curlz MT"
+    ],
+    "logo": {
+      "approved_variants": [
+        "full-color sobre crema",
+        "monocromo negro",
+        "invertido blanco"
+      ],
+      "clear_space_multiplier": 0.5,
+      "min_size_px_digital": 48,
+      "min_size_mm_print": 15,
+      "min_relative_width_pct": 8.0,
+      "allowed_placements": [
+        "superior_izquierda",
+        "inferior_derecha"
+      ],
+      "allowed_backgrounds": [
+        "Colores planos de la paleta",
+        "Fotografía con área lisa y contraste >= 3:1"
+      ],
+      "forbidden_usages": [
+        "Rotar el logo en cualquier ángulo",
+        "Estirar o comprimir sin mantener proporción",
+        "Aplicar sombras, degradados o contornos",
+        "Colocarlo sobre fondos con ruido visual",
+        "Recolorearlo fuera de las variantes aprobadas"
+      ]
+    },
+    "photography": {
+      "mood": "Cotidiano y luminoso, con energía de calle limeña.",
+      "subject_guidelines": "Personas reales en contexto urbano, nunca posando de frente a cámara.",
+      "lighting": "Luz natural lateral. Sin flash directo.",
+      "color_grading": "Cálido, con negros abiertos. Sin filtros saturados.",
+      "depth_of_field": "Media: el producto nítido, el fondo apenas desenfocado.",
+      "people_representation": "Diversidad real de fenotipos peruanos, 18-30 años, expresión espontánea.",
+      "product_presence": "El empaque siempre visible y legible, nunca como objeto secundario.",
+      "hero_product_min_area_pct": 25,
+      "forbidden_imagery": [
+        "Stock corporativo genérico de gente riendo con ensaladas",
+        "Fondos blancos puros de estudio",
+        "Sobre-retoque de piel",
+        "Iconografía incaica literal o estereotipada"
+      ],
+      "prompt_seed": "fotografía cotidiana en calle limeña, luz natural lateral cálida, persona joven peruana en movimiento, empaque de snack visible y nítido ocupando al menos un cuarto del encuadre, fondo urbano apenas desenfocado, sin retoque de piel, grano fotográfico sutil"
+    },
+    "composition": {
+      "grid": "Retícula de 12 columnas con canal de 16 px.",
+      "safe_area_pct": 6,
+      "visual_hierarchy": [
+        "Producto",
+        "Titular",
+        "Beneficio",
+        "Logo",
+        "Legal"
+      ],
+      "max_text_coverage_pct": 35,
+      "min_text_contrast_ratio": 4.5,
+      "white_space_policy": "Mínimo 20 % del área sin elementos.",
+      "forbidden_layouts": [
+        "Texto centrado sobre fotografía con detalle",
+        "Más de tres niveles tipográficos en una misma pieza"
+      ]
+    },
+    "iconography": {
+      "style": "line",
+      "stroke_width": "2 px a 24 px de caja",
+      "corner_radius": "2 px",
+      "usage_notes": "Solo para atributos funcionales del producto.",
+      "forbidden": [
+        "Iconos rellenos",
+        "Emojis como sustituto de iconos"
+      ]
+    },
+    "packaging": {
+      "mandatory_elements": [
+        "Octógonos de advertencia negros de la Ley 30021 en la cara frontal, cuando apliquen",
+        "Gramaje visible en la esquina inferior derecha",
+        "Sello de origen Puno"
+      ],
+      "front_panel_hierarchy": [
+        "Logotipo",
+        "Nombre de variedad",
+        "Gramaje",
+        "Octógonos"
+      ],
+      "legal_zone_notes": "La zona legal inferior no puede ser invadida por elementos gráficos.",
+      "material_and_finish": "Film mate con ventana transparente lateral."
+    },
+    "visual_rules": [
+      {
+        "id": "visual.visual.el_logo_debe_ocupar_al_menos",
+        "statement": "El logo debe ocupar al menos el 8 % del ancho de la pieza.",
+        "rationale": "Por debajo deja de ser reconocible en feed móvil.",
+        "severity": "hard",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Logo de 96 px en pieza de 1080 px.",
+        "bad_example": "Logo de 40 px en pieza de 1080 px.",
+        "check_hint": "Medir ancho del bounding box del logo dividido por el ancho total; debe ser >= 0.08."
+      },
+      {
+        "id": "visual.visual.ningun_elemento_puede_invadi",
+        "statement": "Ningún elemento puede invadir la zona de resguardo del logo.",
+        "rationale": "El logo pierde jerarquía si algo lo toca.",
+        "severity": "hard",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Área perimetral vacía equivalente a media altura del logo.",
+        "bad_example": "Un titular pegado al borde del logo.",
+        "check_hint": "Inspeccionar el área perimetral del logo a 0.5x su altura; debe estar vacía."
+      },
+      {
+        "id": "visual.visual.el_contraste_entre_texto_y_f",
+        "statement": "El contraste entre texto y fondo debe ser al menos 4.5:1.",
+        "rationale": "Legibilidad WCAG AA.",
+        "severity": "hard",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Texto #1C1B19 sobre #F5EFE3.",
+        "bad_example": "Texto #F2B705 sobre #F5EFE3.",
+        "check_hint": "Calcular el ratio de contraste WCAG entre texto y fondo; debe ser >= 4.5."
+      },
+      {
+        "id": "visual.visual.el_producto_debe_ocupar_al_m",
+        "statement": "El producto debe ocupar al menos el 25 % del encuadre.",
+        "rationale": "Es el héroe de la pieza.",
+        "severity": "hard",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Empaque ocupando un tercio del encuadre.",
+        "bad_example": "Empaque diminuto al fondo de una escena.",
+        "check_hint": "Estimar el área del empaque respecto al total; debe ser >= 0.25."
+      },
+      {
+        "id": "visual.visual.no_usar_mas_de_tres_niveles",
+        "statement": "No usar más de tres niveles tipográficos por pieza.",
+        "rationale": "Más jerarquías rompen la lectura.",
+        "severity": "soft",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Titular, bajada y legal.",
+        "bad_example": "Cinco tamaños distintos en una misma pieza.",
+        "check_hint": "Contar tamaños tipográficos distintos; deben ser <= 3."
+      },
+      {
+        "id": "visual.visual.el_naranja_primario_no_puede",
+        "statement": "El naranja primario no puede cubrir más del 45 % del área.",
+        "rationale": "Satura y pierde impacto.",
+        "severity": "soft",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Franja naranja en un tercio de la pieza.",
+        "bad_example": "Fondo naranja completo con texto encima.",
+        "check_hint": "Estimar el porcentaje de área en #E8552D; debe ser <= 45."
+      },
+      {
+        "id": "visual.visual.no_colocar_el_logo_sobre_fot",
+        "statement": "No colocar el logo sobre fotografía con textura o ruido.",
+        "rationale": "Se vuelve ilegible.",
+        "severity": "hard",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Logo sobre una franja de color plano.",
+        "bad_example": "Logo sobre una foto de grano de quinua a detalle.",
+        "check_hint": "Verificar que el área bajo el logo sea de color plano o contraste >= 3:1."
+      },
+      {
+        "id": "visual.visual.el_margen_de_seguridad_debe",
+        "statement": "El margen de seguridad debe ser al menos el 6 % del borde.",
+        "rationale": "Evita cortes en impresión y recortes de feed.",
+        "severity": "hard",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Elementos a 64 px del borde en pieza de 1080 px.",
+        "bad_example": "Texto pegado al borde de la pieza.",
+        "check_hint": "Medir la distancia del elemento más cercano al borde; debe ser >= 6 % del lado."
+      },
+      {
+        "id": "visual.visual.los_octogonos_de_advertencia",
+        "statement": "Los octógonos de advertencia no pueden taparse ni reducirse.",
+        "rationale": "Es obligación legal (Ley 30021).",
+        "severity": "hard",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Octógonos completos y visibles en la cara frontal.",
+        "bad_example": "Octógonos parcialmente cubiertos por un sello promocional.",
+        "check_hint": "Verificar que los octógonos negros estén completos y sin superposiciones."
+      },
+      {
+        "id": "visual.visual.no_usar_iconografia_incaica",
+        "statement": "No usar iconografía incaica literal ni estereotipada.",
+        "rationale": "La marca es andina contemporánea, no folclórica.",
+        "severity": "soft",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Patrón geométrico abstracto de dos colores.",
+        "bad_example": "Chullo, flauta de pan o líneas de Nazca como decoración.",
+        "check_hint": "Buscar en la imagen motivos folclóricos literales; no debe haber ninguno."
+      },
+      {
+        "id": "visual.visual.el_texto_no_puede_cubrir_mas",
+        "statement": "El texto no puede cubrir más del 35 % del área de la pieza.",
+        "rationale": "El aire es parte de la identidad.",
+        "severity": "soft",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Bloque de texto en un tercio inferior.",
+        "bad_example": "Pieza cubierta de texto de borde a borde.",
+        "check_hint": "Estimar el área ocupada por texto; debe ser <= 35 %."
+      }
+    ]
+  },
+  "compliance": {
+    "market": "Perú",
+    "regulatory_notes": [
+      "Ley 30021 de Promoción de la Alimentación Saludable: exige octógonos de advertencia cuando se superan los límites de azúcar, sodio o grasas saturadas.",
+      "Las comunicaciones dirigidas a menores tienen restricciones adicionales bajo el mismo marco.",
+      "INDECOPI sanciona la publicidad engañosa y las comparaciones no sustentadas."
+    ],
+    "required_disclaimers": [
+      "Este producto no reemplaza una alimentación variada y equilibrada."
+    ],
+    "restricted_claims": [
+      {
+        "id": "compliance.both.no_atribuir_propiedades_cura",
+        "statement": "No atribuir propiedades curativas, preventivas o terapéuticas.",
+        "rationale": "Prohibido para alimentos por la normativa sanitaria.",
+        "severity": "hard",
+        "modality": "both",
+        "channel_scope": [],
+        "good_example": "Aporta energía para tu día.",
+        "bad_example": "Previene la anemia.",
+        "check_hint": "Buscar los verbos cura, sana, previene, trata o combate aplicados a enfermedades."
+      },
+      {
+        "id": "compliance.text.no_comparar_el_producto_con",
+        "statement": "No comparar el producto con competidores sin sustento verificable.",
+        "rationale": "INDECOPI exige respaldo para toda comparación.",
+        "severity": "hard",
+        "modality": "text",
+        "channel_scope": [],
+        "good_example": "Nuestra receta usa grano entero.",
+        "bad_example": "Es el snack más nutritivo del mercado.",
+        "check_hint": "Buscar superlativos comparativos: el mejor, el más, superior a."
+      },
+      {
+        "id": "compliance.both.todo_claim_nutricional_debe",
+        "statement": "Todo claim nutricional debe corresponder a la tabla nutricional declarada.",
+        "rationale": "Un claim sin respaldo en tabla es publicidad engañosa.",
+        "severity": "hard",
+        "modality": "both",
+        "channel_scope": [],
+        "good_example": "Sin azúcar añadida, según tabla nutricional.",
+        "bad_example": "Bajo en calorías, sin dato que lo respalde.",
+        "check_hint": "Contrastar cada claim nutricional contra la tabla nutricional del empaque."
+      },
+      {
+        "id": "compliance.visual.los_octogonos_deben_aparecer",
+        "statement": "Los octógonos deben aparecer en la cara frontal cuando correspondan.",
+        "rationale": "Obligación de etiquetado frontal.",
+        "severity": "hard",
+        "modality": "visual",
+        "channel_scope": [],
+        "good_example": "Octógonos en la esquina superior derecha del panel frontal.",
+        "bad_example": "Octógonos relegados a la cara posterior.",
+        "check_hint": "Verificar la presencia de octógonos negros en el panel frontal del empaque."
+      }
+    ]
+  }
+}

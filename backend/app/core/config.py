@@ -34,13 +34,37 @@ class Settings(BaseSettings):
     # --- Base de datos ---
     DATABASE_URL: str
 
-    # --- Gemini ---
+    # --- Proveedor de LLM ---
+    # 'openai' o 'gemini'. Se cambia sin tocar código: `app/ai/llm.py` despacha
+    # a la implementación correspondiente y ambas exponen la misma interfaz.
+    #
+    # Se usa OpenAI por defecto porque el free tier de Gemini limita a 20
+    # peticiones AL DÍA por modelo, y el agente consume 4 por manual: la demo
+    # moriría con un 429 en la segunda prueba del evaluador.
+    LLM_PROVIDER: Literal["openai", "gemini"] = "openai"
+
+    # --- OpenAI ---
+    OPENAI_API_KEY: str = ""
+    OPENAI_TEXT_MODEL: str = "gpt-5.6-luna"
+    OPENAI_VISION_MODEL: str = "gpt-5.6-luna"
+    OPENAI_EMBEDDING_MODEL: str = "text-embedding-3-small"
+    #: 'none' desactiva el razonamiento extendido. Estas tareas son de generación
+    #: estructurada guiada por prompts detallados, no de resolución de problemas:
+    #: el razonamiento añadiría latencia y coste sin mejorar la adherencia al schema.
+    #: ⚠️ 'minimal' NO está soportado por gpt-5.6-luna; los válidos son 'none', 'low', etc.
+    OPENAI_REASONING_EFFORT: Literal["none", "low", "medium", "high"] = "none"
+
+    # --- Gemini (fallback documentado) ---
     GEMINI_API_KEY: str = ""
-    GEMINI_TEXT_MODEL: str = "gemini-3.7-flash"
-    GEMINI_VISION_MODEL: str = "gemini-3.7-flash"
+    GEMINI_TEXT_MODEL: str = "gemini-3.5-flash"
+    GEMINI_VISION_MODEL: str = "gemini-3.5-flash"
     GEMINI_EMBEDDING_MODEL: str = "gemini-embedding-2"
-    GEMINI_EMBEDDING_DIM: int = 1536
-    GEMINI_TIMEOUT_SECONDS: int = 180
+
+    # --- Común a ambos ---
+    # 1536: por debajo del límite de 2000 que pgvector indexa con el tipo
+    # `vector`, y dimensión NATIVA de text-embedding-3-small (sin truncar).
+    EMBEDDING_DIM: int = 1536
+    LLM_TIMEOUT_SECONDS: int = 180
 
     # --- Langfuse ---
     LANGFUSE_PUBLIC_KEY: str = ""
@@ -65,6 +89,28 @@ class Settings(BaseSettings):
     @property
     def langfuse_enabled(self) -> bool:
         return bool(self.LANGFUSE_PUBLIC_KEY and self.LANGFUSE_SECRET_KEY)
+
+    @property
+    def text_model(self) -> str:
+        return self.OPENAI_TEXT_MODEL if self.LLM_PROVIDER == "openai" else self.GEMINI_TEXT_MODEL
+
+    @property
+    def vision_model(self) -> str:
+        return (
+            self.OPENAI_VISION_MODEL if self.LLM_PROVIDER == "openai" else self.GEMINI_VISION_MODEL
+        )
+
+    @property
+    def embedding_model(self) -> str:
+        return (
+            self.OPENAI_EMBEDDING_MODEL
+            if self.LLM_PROVIDER == "openai"
+            else self.GEMINI_EMBEDDING_MODEL
+        )
+
+    @property
+    def llm_api_key(self) -> str:
+        return self.OPENAI_API_KEY if self.LLM_PROVIDER == "openai" else self.GEMINI_API_KEY
 
     @property
     def is_production(self) -> bool:

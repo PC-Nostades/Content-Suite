@@ -56,15 +56,21 @@ def init_observability() -> None:
         else:
             logger.warning("Langfuse: auth_check() falló. Se continúa sin trazas.")
 
-        # Instrumenta google-genai DESPUÉS de crear el cliente, para que los spans
-        # automáticos se adjunten al tracer provider correcto.
-        try:
-            from openinference.instrumentation.google_genai import GoogleGenAIInstrumentor
+        # Instrumentación del proveedor activo, DESPUÉS de crear el cliente para
+        # que los spans automáticos se adjunten al tracer provider correcto.
+        if settings.LLM_PROVIDER == "openai":
+            # `langfuse.openai` es un reemplazo directo del SDK: el propio
+            # `openai_provider.get_client()` lo importa de ahí cuando hay trazado,
+            # así que cada llamada genera su span sin código adicional.
+            logger.info("Instrumentación de OpenAI activada (langfuse.openai)")
+        else:
+            try:
+                from openinference.instrumentation.google_genai import GoogleGenAIInstrumentor
 
-            GoogleGenAIInstrumentor().instrument()
-            logger.info("Instrumentación de google-genai activada")
-        except Exception as exc:  # noqa: BLE001
-            logger.warning("No se pudo instrumentar google-genai: %s", exc)
+                GoogleGenAIInstrumentor().instrument()
+                logger.info("Instrumentación de google-genai activada")
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("No se pudo instrumentar google-genai: %s", exc)
 
     except Exception as exc:  # noqa: BLE001
         logger.warning("Langfuse no pudo inicializarse (%s). Se continúa sin trazas.", exc)

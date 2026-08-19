@@ -72,7 +72,7 @@ class ManualChunk(Base):
     #: 1536 dims: por debajo del límite de 2000 que pgvector puede indexar con el
     #: tipo `vector`. Con las 3072 por defecto de Gemini el índice HNSW ni se crea.
     embedding: Mapped[list[float]] = mapped_column(
-        Vector(settings.GEMINI_EMBEDDING_DIM), nullable=False
+        Vector(settings.EMBEDDING_DIM), nullable=False
     )
     embedding_model: Mapped[str] = mapped_column(String(80), nullable=False)
 
