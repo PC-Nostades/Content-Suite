@@ -295,7 +295,7 @@ Migraciones idempotentes con registro en `schema_migrations` (`python scripts/mi
 ## Tests
 
 ```bash
-cd backend && pytest        # 67 tests, sin red, sobre un fixture escrito a mano
+cd backend && pytest        # 63 tests, sin red, sobre un fixture escrito a mano
 ```
 
 Cubren lo que de romperse falla en silencio: los tres `match_mode` del validador de léxico

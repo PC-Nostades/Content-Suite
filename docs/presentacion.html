@@ -1,0 +1,581 @@
+<title>Content Suite</title>
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     Content Suite — presentación ejecutiva
+     Dirección: hoja de especificación / instrumento de medida.
+     El proyecto entero trata de convertir reglas de marca en algo
+     MEDIBLE, así que el lenguaje visual es el de una spec sheet:
+     retícula estricta, marcas de medición, cifras en monoespaciada.
+     ───────────────────────────────────────────────────────────── */
+
+  :root {
+    /* Neutros con sesgo frío hacia el acento (no gris puro) */
+    --paper:      #FCFDFD;
+    --surface:    #F2F5F6;
+    --surface-2:  #E7ECEE;
+    --hairline:   #D2DBDE;
+    --ink:        #101619;
+    --ink-soft:   #46565C;
+    --ink-faint:  #74868C;
+
+    /* Acento: teal profundo — instrumentación, no marca */
+    --accent:     #0E6C74;
+    --accent-ink: #0A4F55;
+    --accent-wash:#DCEEF0;
+
+    /* Semánticos: separados del acento */
+    --pass:       #1A6F45;
+    --pass-wash:  #DFF1E7;
+    --fail:       #A8271F;
+    --fail-wash:  #F8E3E1;
+    --warn:       #8A5A05;
+    --warn-wash:  #FAEEDA;
+
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", "Roboto Mono", Consolas, monospace;
+    --sans: ui-sans-serif, system-ui, "Segoe UI Variable Text", "Segoe UI", Roboto, sans-serif;
+
+    --slide-pad: clamp(1.75rem, 4vw, 4.5rem);
+    --rail: 3.25rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #0B1013;
+      --surface:    #131A1E;
+      --surface-2:  #1B2429;
+      --hairline:   #2A363C;
+      --ink:        #E8EFF1;
+      --ink-soft:   #A3B4B9;
+      --ink-faint:  #71858B;
+
+      --accent:     #4FC3CD;
+      --accent-ink: #8FDCE3;
+      --accent-wash:#123337;
+
+      --pass:       #63C795;
+      --pass-wash:  #13301F;
+      --fail:       #E98A82;
+      --fail-wash:  #351512;
+      --warn:       #DCAE5A;
+      --warn-wash:  #33240B;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #0B1013;
+    --surface:    #131A1E;
+    --surface-2:  #1B2429;
+    --hairline:   #2A363C;
+    --ink:        #E8EFF1;
+    --ink-soft:   #A3B4B9;
+    --ink-faint:  #71858B;
+
+    --accent:     #4FC3CD;
+    --accent-ink: #8FDCE3;
+    --accent-wash:#123337;
+
+    --pass:       #63C795;
+    --pass-wash:  #13301F;
+    --fail:       #E98A82;
+    --fail-wash:  #351512;
+    --warn:       #DCAE5A;
+    --warn-wash:  #33240B;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Estructura de diapositiva ───────────────────────────────── */
+
+  .deck { display: flex; flex-direction: column; }
+
+  .slide {
+    position: relative;
+    min-height: 100svh;
+    padding: var(--slide-pad) var(--slide-pad) var(--slide-pad)
+             calc(var(--slide-pad) + var(--rail));
+    border-bottom: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    overflow: hidden;
+  }
+  .slide:last-child { border-bottom: 0; }
+
+  /* Riel de medición: las marcas SON el motivo del proyecto,
+     no decoración — cada diapositiva es una lectura en la escala. */
+  .rail {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: var(--rail);
+    border-right: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: var(--slide-pad);
+    gap: .5rem;
+    background: var(--surface);
+  }
+  .rail-num {
+    font-family: var(--mono);
+    font-size: .8125rem;
+    font-weight: 600;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .rail-ticks {
+    flex: 1;
+    width: 100%;
+    background-image: repeating-linear-gradient(
+      to bottom, var(--hairline) 0 1px, transparent 1px 14px);
+    margin-bottom: var(--slide-pad);
+    opacity: .7;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1 {
+    font-size: clamp(2.4rem, 6.2vw, 4.6rem);
+    line-height: .98;
+    letter-spacing: -.035em;
+    font-weight: 680;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h2 {
+    font-size: clamp(1.65rem, 3.4vw, 2.6rem);
+    line-height: 1.08;
+    letter-spacing: -.026em;
+    font-weight: 660;
+    margin: 0;
+    text-wrap: balance;
+  }
+  h3 {
+    font-size: .9375rem;
+    font-weight: 650;
+    margin: 0 0 .35rem;
+    letter-spacing: -.006em;
+  }
+  p { margin: 0; max-width: 68ch; }
+  .lede { font-size: clamp(1.02rem, 1.7vw, 1.22rem); color: var(--ink-soft); }
+  .fine { font-size: .8125rem; color: var(--ink-faint); }
+
+  strong { font-weight: 650; color: var(--ink); }
+  code, .mono { font-family: var(--mono); font-size: .875em; }
+
+  /* ── Piezas ──────────────────────────────────────────────────── */
+
+  .grid { display: grid; gap: 1rem; }
+  .g2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+  .g3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+  .g4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+
+  /* Ficha de medida: el dato manda, la etiqueta acompaña */
+  .stat { display: flex; flex-direction: column; gap: .1rem; }
+  .stat-n {
+    font-family: var(--mono);
+    font-size: clamp(1.5rem, 3vw, 2.05rem);
+    font-weight: 640;
+    letter-spacing: -.03em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .stat-l { font-size: .8125rem; color: var(--ink-soft); }
+
+  .kv {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .3rem .9rem;
+    font-size: .875rem;
+    align-items: baseline;
+  }
+  .kv dt { font-family: var(--mono); font-size: .75rem; color: var(--ink-faint);
+           text-transform: uppercase; letter-spacing: .08em; }
+  .kv dd { margin: 0; }
+
+  .tag {
+    display: inline-flex; align-items: center; gap: .3rem;
+    font-family: var(--mono);
+    font-size: .6875rem;
+    letter-spacing: .04em;
+    padding: .16rem .45rem;
+    border: 1px solid var(--hairline);
+    background: var(--paper);
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .tag.pass { color: var(--pass); background: var(--pass-wash); border-color: transparent; }
+  .tag.fail { color: var(--fail); background: var(--fail-wash); border-color: transparent; }
+  .tag.acc  { color: var(--accent-ink); background: var(--accent-wash); border-color: transparent; }
+
+  .scroll-x { overflow-x: auto; }
+
+  table { border-collapse: collapse; width: 100%; font-size: .875rem; }
+  th, td { text-align: left; padding: .5rem .75rem; border-bottom: 1px solid var(--hairline);
+           vertical-align: top; }
+  th { font-family: var(--mono); font-size: .6875rem; text-transform: uppercase;
+       letter-spacing: .09em; color: var(--ink-faint); font-weight: 600; }
+  td.no { color: var(--ink-faint); }
+  td.si { color: var(--ink); }
+
+  /* Diagrama de arquitectura en CSS grid — más fiable que SVG a mano */
+  .arch { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+  .node {
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    padding: .7rem .85rem;
+    display: flex; flex-direction: column; gap: .18rem;
+  }
+  .node.hi { border-color: var(--accent); background: var(--accent-wash); }
+  .node-t { font-family: var(--mono); font-size: .75rem; font-weight: 650;
+            letter-spacing: .05em; text-transform: uppercase; color: var(--accent-ink); }
+  .node-b { font-size: .8125rem; color: var(--ink-soft); }
+
+  .flow {
+    font-family: var(--mono);
+    font-size: clamp(.68rem, 1.15vw, .8125rem);
+    line-height: 1.75;
+    white-space: pre;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    padding: 1rem 1.1rem;
+    color: var(--ink-soft);
+    overflow-x: auto;
+  }
+
+  .quote {
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    padding: .85rem 1.1rem;
+    font-size: .9375rem;
+  }
+  .quote .src { display: block; margin-top: .4rem; font-family: var(--mono);
+                font-size: .6875rem; color: var(--ink-faint); }
+
+  ul.tight { margin: 0; padding-left: 1.05rem; display: grid; gap: .3rem; font-size: .875rem; }
+  ul.tight li::marker { color: var(--accent); }
+
+  .split { display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); align-items: start; }
+
+  a { color: var(--accent-ink); text-underline-offset: 2px; }
+  a:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 3px;
+  }
+
+  @media print {
+    .slide { min-height: auto; page-break-after: always; border-bottom: 0; }
+    body { background: #fff; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="deck">
+
+  <!-- ═══════════════════════ 1 · EL PROBLEMA ═══════════════════════ -->
+  <section class="slide">
+    <div class="rail"><span class="rail-num">01</span><div class="rail-ticks"></div></div>
+
+    <div class="eyebrow">Reto técnico · IA Engineer</div>
+    <h1>Content&nbsp;Suite</h1>
+    <p class="lede">
+      Cuando una compañía de consumo masivo lanza cientos de productos al año, el cuello de
+      botella no es <em>generar</em> contenido: es que todo ese contenido suene y se vea como
+      la misma marca. Content Suite convierte las reglas de marca en un artefacto que las
+      máquinas pueden leer, aplicar y auditar.
+    </p>
+
+    <div class="grid g4">
+      <div class="card stat"><span class="stat-n">4/4</span><span class="stat-l">módulos entregados</span></div>
+      <div class="card stat"><span class="stat-n">3</span><span class="stat-l">roles con vistas diferenciadas</span></div>
+      <div class="card stat"><span class="stat-n">63</span><span class="stat-l">tests, sin red</span></div>
+      <div class="card stat"><span class="stat-n">~80s</span><span class="stat-l">de brief a manual indexado</span></div>
+    </div>
+
+    <p class="fine">
+      FastAPI · React · Supabase&nbsp;+&nbsp;pgvector · OpenAI&nbsp;gpt-5.6-luna · LangGraph · Langfuse
+    </p>
+  </section>
+
+  <!-- ═══════════════════ 2 · LA DECISIÓN CENTRAL ═══════════════════ -->
+  <section class="slide">
+    <div class="rail"><span class="rail-num">02</span><div class="rail-ticks"></div></div>
+
+    <div class="eyebrow">La decisión que sostiene todo lo demás</div>
+    <h2>Un manual en prosa no se puede auditar.<br>Uno con reglas medibles, sí.</h2>
+
+    <p class="lede">
+      Cada regla del manual se genera como un objeto con <code>severity</code>,
+      <code>modality</code> y un <strong>check_hint</strong>: la instrucción de cómo verificarla.
+      Ese campo es lo que separa un documento bonito de un sistema de gobernanza.
+    </p>
+
+    <div class="scroll-x">
+      <table>
+        <thead>
+          <tr><th>Lo que un LLM escribe por defecto</th><th>Lo que este sistema exige</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="no">«el logo debe verse bien»</td>
+              <td class="si">«el logo debe ocupar ≥ 8&nbsp;% del ancho de la pieza»</td></tr>
+          <tr><td class="no">«usar colores cálidos»</td>
+              <td class="si"><code>#E8552D</code> primario, máximo 40&nbsp;% del área</td></tr>
+          <tr><td class="no">«buena legibilidad»</td>
+              <td class="si">contraste texto/fondo ≥ 4.5:1 (WCAG&nbsp;AA)</td></tr>
+          <tr><td class="no">«fotos auténticas»</td>
+              <td class="si">luz natural lateral, producto ≥ 25&nbsp;% del encuadre</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="quote">
+      Sobre una pieza real con el logo dibujado al 4&nbsp;%, el dictamen del sistema fue:
+      <strong>«la pieza mide ~1080&nbsp;px de ancho y el logo ~44&nbsp;px; ocupa cerca del
+      4.1&nbsp;%, por debajo del mínimo exigido de 8&nbsp;%»</strong>.
+      <span class="src">citando visual.visual.el_logo_debe_ocupar_al_menos · logo real: 43.2 px</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 3 · ARQUITECTURA ══════════════════════ -->
+  <section class="slide">
+    <div class="rail"><span class="rail-num">03</span><div class="rail-ticks"></div></div>
+
+    <div class="eyebrow">Arquitectura</div>
+    <h2>Monolito modular con una capa de IA compartida</h2>
+
+    <div class="arch">
+      <div class="node">
+        <span class="node-t">Render · Static Site</span>
+        <span class="node-b">React 19 · Vite · Tailwind v4 · shadcn/ui</span>
+        <span class="node-b"><strong>No duerme.</strong> Proxea <code>/api/*</code> a la API
+          desde el mismo origen: CORS desaparece por completo.</span>
+      </div>
+      <div class="node hi">
+        <span class="node-t">Render · FastAPI</span>
+        <span class="node-b"><code>modules/</code> auth · brand_dna · creative · governance</span>
+        <span class="node-b"><code>ai/</code> llm · chunking · embeddings · retrieval · postprocess</span>
+      </div>
+      <div class="node">
+        <span class="node-t">Supabase · Postgres 17</span>
+        <span class="node-b">pgvector <code>vector(1536)</code> · índice HNSW · RLS cerrando
+          PostgREST · 7 tablas</span>
+      </div>
+      <div class="node">
+        <span class="node-t">OpenAI</span>
+        <span class="node-b">gpt-5.6-luna (texto y visión) · text-embedding-3-small</span>
+      </div>
+      <div class="node">
+        <span class="node-t">LangGraph</span>
+        <span class="node-b">Solo el Módulo II, donde hay un ciclo con decisión real</span>
+      </div>
+      <div class="node">
+        <span class="node-t">Langfuse</span>
+        <span class="node-b">Trazas del RAG, prompts y latencias de cada auditoría</span>
+      </div>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Por qué <code>ai/</code> vive fuera de <code>modules/</code></h3>
+        <p class="fine">
+          El Módulo II necesita <code>retrieval</code> y el III <code>generate_vision</code>.
+          Si esas piezas vivieran dentro de <code>brand_dna/</code>, los módulos siguientes
+          importarían «hacia adentro» de otro módulo — el anti-patrón que obliga a refactorizar.
+          Añadir un módulo es una carpeta, una línea en <code>api.py</code> y una fila en
+          <code>nav.ts</code>.
+        </p>
+      </div>
+      <div>
+        <h3>La capa de proveedor se pagó sola</h3>
+        <p class="fine">
+          El proyecto empezó con Gemini. A mitad de camino descubrimos que su free tier limita a
+          <strong>20 peticiones al día por modelo</strong>: con 4 llamadas por manual son 5
+          manuales diarios, y la demo habría muerto con un 429.
+          <strong>Migrar a OpenAI tocó un solo archivo.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ 4 · EL RAG ════════════════════════════ -->
+  <section class="slide">
+    <div class="rail"><span class="rail-num">04</span><div class="rail-ticks"></div></div>
+
+    <div class="eyebrow">Arquitectura RAG</div>
+    <h2>El chunking no es por tamaño: es por dominio</h2>
+
+    <p class="lede">
+      El manual se parte en ~25 chunks derivados del propio schema, cada uno etiquetado con
+      <code>modality</code> y <code>rule_type</code>. Sin esa metadata no hay pre-filtrado — y sin
+      pre-filtrado, una consulta sobre el logo devuelve reglas de léxico.
+    </p>
+
+    <div class="split">
+      <div class="card">
+        <h3>La misma consulta, dos filtros</h3>
+        <p class="fine" style="margin-bottom:.55rem">«¿qué palabras están prohibidas?»</p>
+        <dl class="kv">
+          <dt>text</dt>
+          <dd><span class="tag pass">lexicon</span> <span class="tag">tone</span>
+              <span class="tag">compliance</span></dd>
+          <dt>visual</dt>
+          <dd><span class="tag">composition</span> <span class="tag">compliance</span>
+              <span class="tag fail">sin lexicon</span></dd>
+        </dl>
+        <p class="fine" style="margin-top:.6rem">
+          El filtro SQL da precisión; el vector da recall dentro del dominio correcto. Es la
+          garantía que hace posible una auditoría de imagen fiable.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>RAG para guía, código para lo innegociable</h3>
+        <p class="fine">
+          El léxico prohibido <strong>no</strong> se verifica por similitud vectorial: un check de
+          palabra prohibida necesita 100&nbsp;% de recall, y la búsqueda semántica podría devolver
+          8 de 15 términos.
+        </p>
+        <p class="fine" style="margin-top:.5rem">
+          Las listas duras se leen por SQL y se aplican con el <code>match_mode</code> de cada
+          término. Elegir <code>exact</code> donde hacía falta <code>stem</code> dejaría pasar
+          «adelgazante».
+        </p>
+        <div style="display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.6rem">
+          <span class="tag acc">exact → \bpalabra\b</span>
+          <span class="tag acc">stem → raíz + derivados</span>
+          <span class="tag acc">regex → patrón</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g4">
+      <div class="card stat"><span class="stat-n">1536</span><span class="stat-l">dims — pgvector no indexa &gt;2000</span></div>
+      <div class="card stat"><span class="stat-n">~25</span><span class="stat-l">chunks por manual</span></div>
+      <div class="card stat"><span class="stat-n">225</span><span class="stat-l">tokens de media por chunk</span></div>
+      <div class="card stat"><span class="stat-n">HNSW</span><span class="stat-l">índice vectorial verificado</span></div>
+    </div>
+  </section>
+
+  <!-- ═════════════════ 5 · LOS 4 MÓDULOS / GOBERNANZA ══════════════ -->
+  <section class="slide">
+    <div class="rail"><span class="rail-num">05</span><div class="rail-ticks"></div></div>
+
+    <div class="eyebrow">El flujo completo</div>
+    <h2>De un brief de cuatro campos a una pieza aprobada</h2>
+
+    <div class="flow">brief ──► <strong>MÓDULO I</strong>  agente multi-etapa            ──► manual indexado en pgvector
+             estrategia → verbal ∥ visual ∥ compliance
+
+             <strong>MÓDULO II</strong>  grafo LangGraph
+             retrieve ──► generate ──► validate ──┬─ limpio ──► pending_a
+                ▲                                 │
+                └────────── repair ◄──────────────┘  violación hard, &lt; 2 intentos
+
+             <strong>MÓDULO III</strong>  gobernanza
+             pending_a ──(Aprobador A · texto)──► pending_b ──(Aprobador B · imagen)──► approved
+                                                      │
+                                                      └─► auditoría multimodal: cada
+                                                          hallazgo cita su rule_id
+
+             <strong>MÓDULO IV</strong>  Langfuse traza qué se recuperó, qué se envió y cuánto tardó</div>
+
+    <div class="grid g3">
+      <div class="card">
+        <h3>El validador no usa LLM</h3>
+        <p class="fine">Aplica los términos prohibidos como código. Si el modelo desliza uno, el
+          grafo repara con instrucciones concretas; si no converge en 2 intentos,
+          <strong>lo reporta en vez de ocultarlo</strong>.</p>
+      </div>
+      <div class="card">
+        <h3>El RBAC vive en el servidor</h3>
+        <p class="fine">Ocultar un botón es UX. Un aprobador con token válido que intente crear
+          una marca recibe <span class="tag fail">403</span>, y hay tests que lo prueban.</p>
+      </div>
+      <div class="card">
+        <h3>Los aprobadores leen el manual</h3>
+        <p class="fine">Sin acceso a las reglas, aprobar sería arbitrario. RBAC bien hecho es una
+          matriz de permisos sobre el mismo recurso, no muros.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════ 6 · VALOR Y LIMITACIONES ════════════════════ -->
+  <section class="slide">
+    <div class="rail"><span class="rail-num">06</span><div class="rail-ticks"></div></div>
+
+    <div class="eyebrow">Valor al negocio · Limitaciones</div>
+    <h2>Qué resuelve hoy y qué falta para producción</h2>
+
+    <div class="split">
+      <div>
+        <h3 style="margin-bottom:.6rem">Valor</h3>
+        <ul class="tight">
+          <li><strong>El manual deja de ser un PDF que nadie abre.</strong> Se convierte en reglas
+            que el sistema aplica solo, en cada pieza, sin que nadie las recuerde.</li>
+          <li><strong>La revisión de marca deja de depender de quién esté disponible.</strong>
+            El mismo criterio se aplica a la pieza 1 y a la 200.</li>
+          <li><strong>Cada decisión es rastreable.</strong> Un hallazgo cita la regla; una pieza
+            cita las reglas que la guiaron; una traza muestra qué contexto se usó.</li>
+          <li><strong>Riesgo regulatorio acotado.</strong> Los claims prohibidos y los octógonos de
+            la Ley 30021 son reglas del sistema, no criterio de quien redacta.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 style="margin-bottom:.6rem">Limitaciones, sin maquillaje</h3>
+        <ul class="tight">
+          <li><strong>La auditoría visual estima, no mide con precisión de píxel.</strong> Acertó
+            (44&nbsp;px medidos sobre 43 reales), pero para reglas críticas habría que
+            complementar con visión por computador clásica. Por eso cada hallazgo lleva
+            <code>confidence</code>.</li>
+          <li><strong>Cold start de ~60&nbsp;s</strong> en el free tier de Render. Mitigado con
+            keep-alive y marcas ya sembradas, no resuelto.</li>
+          <li><strong>Sin evaluación sistemática de calidad.</strong> El siguiente paso natural es
+            un set de golden manuals y evals en Langfuse para medir regresión de prompts.</li>
+          <li><strong>El contenido generado requiere validación legal y nutricional</strong> antes
+            de uso comercial. El sistema reduce el riesgo; no lo elimina.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:var(--accent)">
+      <h3>Lo que haría a continuación, en orden</h3>
+      <p class="fine">
+        1 · Evals en Langfuse con manuales de referencia para detectar regresión al tocar prompts.
+        2 · Medición geométrica real (OpenCV) para las reglas de logo y área, dejando al modelo de
+        visión lo que sí es juicio. 3 · Versionado de prompts en Langfuse para iterar sin redeploy.
+        4 · Cookie <code>httpOnly</code> + CSRF una vez validado el proxy de rewrite.
+      </p>
+    </div>
+  </section>
+
+</div>
