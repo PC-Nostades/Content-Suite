@@ -186,6 +186,37 @@ async def get_hard_lexicon(db: AsyncSession, brand_id: uuid.UUID) -> dict:
     return row.scalar_one() or {}
 
 
+async def get_channel_guideline(
+    db: AsyncSession, brand_id: uuid.UUID, channel: str
+) -> dict | None:
+    """Guía del canal pedido, leída del JSONB por SQL directo.
+
+    Mismo principio que `get_hard_lexicon`: **RAG para guía, SQL para lo que no
+    puede fallar**. El chunk del canal existe y el vector suele recuperarlo, pero
+    "suele" no basta para un límite de caracteres — si no se recupera, el sistema
+    generaría 400 caracteres para un panel de empaque limitado a 90 y nadie se
+    enteraría.
+    """
+    if not channel:
+        return None
+
+    row = await db.execute(
+        text(
+            """
+            select g
+            from public.brand_manuals m,
+                 jsonb_array_elements(m.content -> 'verbal' -> 'channel_guidelines') g
+            where m.brand_id = :brand_id
+              and m.status = 'published'
+              and g ->> 'channel' = :channel
+            limit 1
+            """
+        ),
+        {"brand_id": brand_id, "channel": channel},
+    )
+    return row.scalar_one_or_none()
+
+
 def format_rules_for_prompt(chunks: list[RetrievedChunk]) -> str:
     """Serializa los chunks recuperados como contexto para el LLM."""
     if not chunks:

@@ -8,6 +8,7 @@ import pytest
 
 from app.modules.creative.validator import (
     blocking_violations,
+    check_length,
     find_violations,
     format_feedback,
 )
@@ -138,3 +139,47 @@ def test_lexicon_vacio_no_lanza():
 def test_texto_limpio_no_produce_violaciones():
     limpio = "Quinua de Puno, sin azúcar añadida, crocante y con energía que dura."
     assert find_violations(limpio, LEXICON) == []
+
+
+# ─────────────────────── Límite de caracteres por canal ───────────────────────
+
+GUIA_PACKAGING = {"channel": "packaging", "max_chars": 90}
+
+
+def test_detecta_que_el_texto_excede_el_limite_del_canal():
+    """Un límite es aritmética, no criterio: se comprueba con len(), no
+    pidiéndoselo al modelo — a un LLM se le da mal contar caracteres."""
+    largo = "x" * 150
+    v = check_length(largo, GUIA_PACKAGING)
+    assert v is not None
+    assert v.severity == "hard"
+    assert v.kind == "channel_limit"
+    assert "150 caracteres" in v.matched
+    assert "90" in v.replacement
+
+
+def test_no_marca_violacion_si_cabe_en_el_limite():
+    assert check_length("x" * 80, GUIA_PACKAGING) is None
+
+
+def test_el_limite_ignora_espacios_de_los_extremos():
+    assert check_length("  " + "x" * 88 + "  ", GUIA_PACKAGING) is None
+
+
+def test_sin_guia_de_canal_no_se_comprueba_nada():
+    """Si el manual no declara guía para ese canal, no se inventa un límite."""
+    assert check_length("x" * 5000, None) is None
+    assert check_length("x" * 5000, {}) is None
+
+
+def test_un_max_chars_invalido_no_rompe_la_validacion():
+    """El manual lo genera un LLM: hay que tolerar un valor absurdo."""
+    for malo in ({"max_chars": 0}, {"max_chars": -5}, {"max_chars": "noventa"}):
+        assert check_length("x" * 200, malo) is None
+
+
+def test_el_feedback_del_limite_dice_cuanto_sobra():
+    """Sin el número exacto, el nodo de reparación no converge."""
+    v = check_length("x" * 130, GUIA_PACKAGING)
+    assert v is not None
+    assert "sobran 40" in v.replacement

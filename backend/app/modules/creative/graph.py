@@ -27,11 +27,17 @@ from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.ai.llm import generate_structured
-from app.ai.retrieval import format_rules_for_prompt, get_hard_lexicon, retrieve_rules
+from app.ai.retrieval import (
+    format_rules_for_prompt,
+    get_channel_guideline,
+    get_hard_lexicon,
+    retrieve_rules,
+)
 from app.core.enums import Modality
 from app.modules.creative.validator import (
     Violation,
     blocking_violations,
+    check_length,
     find_violations,
     format_feedback,
 )
@@ -87,6 +93,7 @@ class CreativeState(TypedDict, total=False):
     rules_context: str
     retrieved_rule_ids: list[str]
     lexicon: dict
+    channel_guideline: dict
 
     # Generación
     title: str
@@ -103,6 +110,28 @@ class CreativeState(TypedDict, total=False):
 
 
 # ---------------------------------------------------------------------- Nodos
+
+
+def _bloque_canal(state: CreativeState) -> str:
+    """Reglas del canal, explícitas en el prompt.
+
+    Van aparte del contexto RAG a propósito: son restricciones operativas
+    (longitud, estructura, CTA) y no deben competir por atención con las reglas
+    recuperadas por similitud.
+    """
+    guia = state.get("channel_guideline") or {}
+    canal = state.get("channel") or "general"
+    if not guia:
+        return f"CANAL\n{canal}\n\n"
+    return (
+        f"CANAL — {canal}\n"
+        f"Longitud máxima: {guia.get('max_chars')} caracteres (título + cuerpo). "
+        f"Se verifica automáticamente con len(): si te pasas, el texto se rechaza.\n"
+        f"Estructura: {guia.get('structure', '')}\n"
+        f"Estilo de CTA: {guia.get('cta_style', '')}\n"
+        f"Hashtags: {guia.get('hashtag_policy', '')}\n"
+        f"Ajuste de tono: {guia.get('tone_adjustment', '')}\n\n"
+    )
 
 
 async def node_retrieve(state: CreativeState) -> dict:
@@ -126,19 +155,24 @@ async def node_retrieve(state: CreativeState) -> dict:
         top_k=8,
     )
     lexicon = await get_hard_lexicon(db, state["brand_id"])
+    # Determinista, no por similitud: el límite de caracteres del canal no
+    # puede depender de que el vector acierte a recuperar ese chunk.
+    guia = await get_channel_guideline(db, state["brand_id"], state.get("channel", ""))
 
     rule_ids: list[str] = []
     for c in chunks:
         rule_ids.extend(c.rule_ids)
 
     logger.info(
-        "creative.retrieve · %d chunks · %d términos prohibidos",
+        "creative.retrieve · %d chunks · %d términos prohibidos · canal=%s (máx %s)",
         len(chunks), len(lexicon.get("forbidden_terms") or []),
+        state.get("channel") or "-", (guia or {}).get("max_chars", "-"),
     )
     return {
         "rules_context": format_rules_for_prompt(chunks),
         "retrieved_rule_ids": sorted(set(rule_ids)),
         "lexicon": lexicon,
+        "channel_guideline": guia or {},
         "attempts": 0,
         "fixed_violations": [],
     }
@@ -167,8 +201,8 @@ async def node_generate(state: CreativeState) -> dict:
     instruccion = TIPO_INSTRUCCIONES.get(state["content_type"], "")
     entrada = (
         f"MANUAL DE MARCA (reglas recuperadas)\n{state['rules_context']}\n\n"
+        f"{_bloque_canal(state)}"
         f"TAREA\n{instruccion}\n"
-        f"Canal: {state.get('channel') or 'general'}\n"
         f"Brief: {state['brief']}"
     )
 
@@ -184,14 +218,24 @@ async def node_generate(state: CreativeState) -> dict:
 
 
 def node_validate(state: CreativeState) -> dict:
-    """Nodo determinista: aplica el léxico como código, no como criterio."""
+    """Nodo determinista: aplica el léxico y el límite del canal como código.
+
+    Ninguna de las dos comprobaciones usa LLM. El léxico porque necesita 100 % de
+    recall; el límite de caracteres porque es aritmética — a un modelo al que le
+    dices «máximo 90 caracteres» se le da mal contarlos, a `len()` nunca.
+    """
     texto = f"{state.get('title', '')}\n{state.get('body', '')}"
     violaciones: list[Violation] = find_violations(texto, state.get("lexicon") or {})
+
+    exceso = check_length(texto, state.get("channel_guideline"))
+    if exceso is not None:
+        violaciones.append(exceso)
+
     bloqueantes = blocking_violations(violaciones)
 
     logger.info(
-        "creative.validate · %d violaciones (%d bloqueantes) en el intento %d",
-        len(violaciones), len(bloqueantes), state.get("attempts", 0),
+        "creative.validate · %d violaciones (%d bloqueantes) · %d chars en el intento %d",
+        len(violaciones), len(bloqueantes), len(texto.strip()), state.get("attempts", 0),
     )
     return {"violations": [v.as_dict() for v in violaciones]}
 
@@ -203,6 +247,7 @@ async def node_repair(state: CreativeState) -> dict:
 
     entrada = (
         f"MANUAL DE MARCA (reglas recuperadas)\n{state['rules_context']}\n\n"
+        f"{_bloque_canal(state)}"
         f"TEXTO A CORREGIR\nTitular: {state.get('title', '')}\n{state.get('body', '')}\n\n"
         f"{format_feedback(bloqueantes)}"
     )

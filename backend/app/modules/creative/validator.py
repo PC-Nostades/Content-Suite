@@ -111,6 +111,35 @@ def find_violations(text: str, lexicon: dict) -> list[Violation]:
     return violaciones
 
 
+def check_length(text: str, guideline: dict | None) -> Violation | None:
+    """Comprueba el límite de caracteres que el manual fija para el canal.
+
+    Se verifica con `len()` y no pidiéndoselo al modelo por la misma razón que el
+    léxico: un límite es aritmética, no criterio. Un modelo al que le dices
+    «máximo 90 caracteres» falla ese conteo con frecuencia; `len()` nunca.
+    """
+    if not guideline:
+        return None
+    maximo = guideline.get("max_chars")
+    if not isinstance(maximo, int) or maximo <= 0:
+        return None
+
+    largo = len(text.strip())
+    if largo <= maximo:
+        return None
+
+    return Violation(
+        term=f"max_chars:{maximo}",
+        matched=f"{largo} caracteres",
+        replacement=f"recórtalo a {maximo} caracteres o menos "
+                    f"(sobran {largo - maximo})",
+        severity="hard",
+        reason=f"El manual limita el canal «{guideline.get('channel')}» a "
+               f"{maximo} caracteres.",
+        kind="channel_limit",
+    )
+
+
 def blocking_violations(violations: list[Violation]) -> list[Violation]:
     """Solo las de severidad `hard`. Las `soft` se reportan pero no bloquean:
     si todo bloqueara, el ciclo de reparación no convergería nunca."""

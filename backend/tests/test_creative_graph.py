@@ -127,6 +127,72 @@ async def test_el_ciclo_se_detiene_en_max_repairs(monkeypatch, sin_retrieval):
     assert [v["term"] for v in resultado["violations"]] == ["light"]
 
 
+async def test_exceder_el_limite_del_canal_dispara_la_reparacion(monkeypatch):
+    """El límite de caracteres del canal se aplica igual que el léxico.
+
+    En la práctica el modelo ya no se pasa (la guía va explícita en el prompt y
+    generó 76 de 90 caracteres a la primera), pero la aplicación tiene que
+    funcionar igualmente: prevenir no es lo mismo que garantizar.
+    """
+
+    async def fake_retrieve(state):
+        return {
+            "rules_context": "(reglas)",
+            "retrieved_rule_ids": [],
+            "lexicon": {"forbidden_terms": [], "forbidden_claims": []},
+            "channel_guideline": {"channel": "packaging", "max_chars": 90},
+            "attempts": 0,
+            "fixed_violations": [],
+        }
+
+    async def genera_largo(state):
+        return {"title": "Titular", "body": "x" * 200, "rationale": "x"}
+
+    async def repara_corto(state):
+        return {
+            "title": "Titular",
+            "body": "Quinua de Puno, sin azúcar añadida. 30 g.",
+            "rationale": "recortado",
+            "attempts": state.get("attempts", 0) + 1,
+            "fixed_violations": [*(state.get("fixed_violations") or []), *state["violations"]],
+        }
+
+    monkeypatch.setattr(g, "node_retrieve", fake_retrieve)
+    monkeypatch.setattr(g, "node_generate", genera_largo)
+    monkeypatch.setattr(g, "node_repair", repara_corto)
+
+    resultado = await g.build_graph().ainvoke(_estado_inicial())
+
+    assert resultado["attempts"] == 1, "el exceso de longitud debió disparar la reparación"
+    assert resultado["violations"] == [], "tras recortar no debe quedar violación"
+    assert [v["kind"] for v in resultado["fixed_violations"]] == ["channel_limit"]
+    assert len(f"{resultado['title']}\n{resultado['body']}".strip()) <= 90
+
+
+async def test_sin_guia_de_canal_no_se_impone_ningun_limite(monkeypatch):
+    """Si el manual no declara ese canal, no se inventa un límite."""
+
+    async def fake_retrieve(state):
+        return {
+            "rules_context": "(reglas)",
+            "retrieved_rule_ids": [],
+            "lexicon": {},
+            "channel_guideline": {},
+            "attempts": 0,
+            "fixed_violations": [],
+        }
+
+    async def genera_largo(state):
+        return {"title": "T", "body": "x" * 3000, "rationale": "x"}
+
+    monkeypatch.setattr(g, "node_retrieve", fake_retrieve)
+    monkeypatch.setattr(g, "node_generate", genera_largo)
+
+    resultado = await g.build_graph().ainvoke(_estado_inicial())
+    assert resultado["attempts"] == 0
+    assert resultado["violations"] == []
+
+
 async def test_una_violacion_soft_no_dispara_reparacion(monkeypatch):
     """Si las `soft` bloquearan, el ciclo no convergería en textos normales."""
 

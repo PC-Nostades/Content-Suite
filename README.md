@@ -296,13 +296,14 @@ Migraciones idempotentes con registro en `schema_migrations` (`python scripts/mi
 ## Tests
 
 ```bash
-cd backend && pytest        # 63 tests, sin red, sobre un fixture escrito a mano
+cd backend && pytest        # 71 tests, sin red, sobre un fixture escrito a mano
 ```
 
 Cubren lo que de romperse falla en silencio: los tres `match_mode` del validador de léxico
-(incluidos falsos positivos y regex inválidos), el ciclo del grafo (converge, se detiene en
-`MAX_REPAIRS` y reporta lo no resuelto), la separación de dominios del chunking, el RBAC devolviendo
-403, y los invariantes de configuración (dimensión indexable, dominios RAG disjuntos).
+(incluidos falsos positivos y regex inválidos), el límite de caracteres por canal, el ciclo del
+grafo (converge, se detiene en `MAX_REPAIRS` y reporta lo no resuelto), la separación de dominios
+del chunking, el RBAC devolviendo 403, y los invariantes de configuración (dimensión indexable,
+dominios RAG disjuntos).
 
 El fixture de manual está **escrito a mano con los propios modelos Pydantic**: hace imposible un
 fixture inválido y permite desarrollar chunking, RAG y UI sin gastar llamadas al modelo.
