@@ -33,3 +33,6 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Presentacion generada (se regenera con: python docs/build_ppt.py)
+!docs/*.pptx

@@ -13,9 +13,10 @@ Suite convierte las reglas de marca en un artefacto que las máquinas pueden lee
 
 | | |
 |---|---|
-| **App** | `https://content-suite-web.onrender.com` |
-| **API (Swagger)** | `https://content-suite-api.onrender.com/docs` |
-| **Langfuse** | *(URL del proyecto — ver sección Observabilidad)* |
+| **App** | https://content-suite-web.onrender.com |
+| **API (Swagger)** | https://content-suite-api.onrender.com/docs |
+| **Langfuse** | https://cloud.langfuse.com/project/cmszm13ah0az1ad0cp6p4suff |
+| **Estado del sistema** | https://content-suite-api.onrender.com/health/ready |
 
 > ⚠️ El backend corre en el free tier de Render, que duerme tras 15 min de inactividad.
 > **La primera petición puede tardar ~60 s.** El frontend NO duerme (es un static site), así que la
