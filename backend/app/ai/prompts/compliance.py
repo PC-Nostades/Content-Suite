@@ -31,8 +31,8 @@ REGLAS DE CONTENIDO
    norma: un manual con una cita legal falsa es peor que uno sin citas.
 4. Incluye siempre una restricción sobre claims nutricionales sin respaldo y otra
    sobre comparaciones con competidores.
-5. Mínimo 3 `restricted_claims`, con modality 'text', 'visual' o 'both' según cómo
-   se verifique cada una.
+5. Entre 2 y 3 `restricted_claims`, con modality 'text', 'visual' o 'both' según
+   cómo se verifique cada una.
 
 FORMATO
 Responde ÚNICAMENTE con JSON válido conforme al schema. Sin markdown.

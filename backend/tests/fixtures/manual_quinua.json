@@ -21,8 +21,7 @@
     ],
     "competitor_contrast": [
       "No es una barra de cereal disfrazada de saludable",
-      "No es un producto fitness que le habla a atletas de élite",
-      "No es artesanía nostálgica: es andino contemporáneo"
+      "No es un producto fitness que le habla a atletas de élite"
     ]
   },
   "audiences": [
@@ -37,8 +36,7 @@
       ],
       "jobs_to_be_done": [
         "Matar el hambre entre clases sin sentirse pesado",
-        "Sentir que come bien sin hacer un esfuerzo consciente",
-        "Mostrar buen gusto en lo que lleva en la mochila"
+        "Sentir que come bien sin hacer un esfuerzo consciente"
       ],
       "pain_points": [
         "Los snacks saludables saben a cartón",
@@ -46,13 +44,11 @@
       ],
       "cultural_codes": [
         "Jerga limeña cotidiana sin caer en la caricatura",
-        "Orgullo por el ingrediente peruano, sin folclorismo",
-        "Humor autoconsciente, del tipo que circula en TikTok"
+        "Orgullo por el ingrediente peruano, sin folclorismo"
       ],
       "media_habits": [
         "tiktok",
-        "instagram",
-        "packaging"
+        "instagram"
       ]
     }
   ],
@@ -463,19 +459,6 @@
         "never_pair_with": [
           "#E8552D"
         ]
-      },
-      {
-        "name": "Amarillo Sol",
-        "hex": "#F2B705",
-        "role": "accent",
-        "usage_notes": "Destacados puntuales. Nunca como fondo completo.",
-        "max_area_pct": 15,
-        "pairs_well_with": [
-          "#1C1B19"
-        ],
-        "never_pair_with": [
-          "#F5EFE3"
-        ]
       }
     ],
     "forbidden_colors": [
@@ -516,19 +499,6 @@
         "line_height": "1.5",
         "letter_spacing": "0",
         "case_rules": "Mayúscula inicial de oración."
-      },
-      {
-        "family": "Inter",
-        "fallback": "system-ui, sans-serif",
-        "role": "legal",
-        "weights": [
-          "400"
-        ],
-        "min_size_px_digital": 10,
-        "min_size_pt_print": 6,
-        "line_height": "1.3",
-        "letter_spacing": "0.01em",
-        "case_rules": "Mayúscula inicial de oración."
       }
     ],
     "forbidden_fonts": [
@@ -539,8 +509,7 @@
     "logo": {
       "approved_variants": [
         "full-color sobre crema",
-        "monocromo negro",
-        "invertido blanco"
+        "monocromo negro"
       ],
       "clear_space_multiplier": 0.5,
       "min_size_px_digital": 48,
@@ -584,10 +553,7 @@
       "safe_area_pct": 6,
       "visual_hierarchy": [
         "Producto",
-        "Titular",
-        "Beneficio",
-        "Logo",
-        "Legal"
+        "Titular"
       ],
       "max_text_coverage_pct": 35,
       "min_text_contrast_ratio": 4.5,
@@ -610,14 +576,12 @@
     "packaging": {
       "mandatory_elements": [
         "Octógonos de advertencia negros de la Ley 30021 en la cara frontal, cuando apliquen",
-        "Gramaje visible en la esquina inferior derecha",
-        "Sello de origen Puno"
+        "Gramaje visible en la esquina inferior derecha"
       ],
       "front_panel_hierarchy": [
         "Logotipo",
         "Nombre de variedad",
-        "Gramaje",
-        "Octógonos"
+        "Gramaje"
       ],
       "legal_zone_notes": "La zona legal inferior no puede ser invadida por elementos gráficos.",
       "material_and_finish": "Film mate con ventana transparente lateral."
@@ -732,17 +696,6 @@
         "good_example": "Patrón geométrico abstracto de dos colores.",
         "bad_example": "Chullo, flauta de pan o líneas de Nazca como decoración.",
         "check_hint": "Buscar en la imagen motivos folclóricos literales; no debe haber ninguno."
-      },
-      {
-        "id": "visual.visual.el_texto_no_puede_cubrir_mas",
-        "statement": "El texto no puede cubrir más del 35 % del área de la pieza.",
-        "rationale": "El aire es parte de la identidad.",
-        "severity": "soft",
-        "modality": "visual",
-        "channel_scope": [],
-        "good_example": "Bloque de texto en un tercio inferior.",
-        "bad_example": "Pieza cubierta de texto de borde a borde.",
-        "check_hint": "Estimar el área ocupada por texto; debe ser <= 35 %."
       }
     ]
   },
@@ -750,8 +703,7 @@
     "market": "Perú",
     "regulatory_notes": [
       "Ley 30021 de Promoción de la Alimentación Saludable: exige octógonos de advertencia cuando se superan los límites de azúcar, sodio o grasas saturadas.",
-      "Las comunicaciones dirigidas a menores tienen restricciones adicionales bajo el mismo marco.",
-      "INDECOPI sanciona la publicidad engañosa y las comparaciones no sustentadas."
+      "Las comunicaciones dirigidas a menores tienen restricciones adicionales bajo el mismo marco."
     ],
     "required_disclaimers": [
       "Este producto no reemplaza una alimentación variada y equilibrada."
@@ -789,17 +741,6 @@
         "good_example": "Sin azúcar añadida, según tabla nutricional.",
         "bad_example": "Bajo en calorías, sin dato que lo respalde.",
         "check_hint": "Contrastar cada claim nutricional contra la tabla nutricional del empaque."
-      },
-      {
-        "id": "compliance.visual.los_octogonos_deben_aparecer",
-        "statement": "Los octógonos deben aparecer en la cara frontal cuando correspondan.",
-        "rationale": "Obligación de etiquetado frontal.",
-        "severity": "hard",
-        "modality": "visual",
-        "channel_scope": [],
-        "good_example": "Octógonos en la esquina superior derecha del panel frontal.",
-        "bad_example": "Octógonos relegados a la cara posterior.",
-        "check_hint": "Verificar la presencia de octógonos negros en el panel frontal del empaque."
       }
     ]
   }

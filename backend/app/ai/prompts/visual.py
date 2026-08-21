@@ -38,7 +38,7 @@ REGLAS DE CONTENIDO
 2. Tipografías REALES y disponibles (Google Fonts o estándar del sistema). NUNCA
    inventes nombres de tipografías: el sistema intentará cargarlas.
 3. Incluye SIEMPRE reglas de lo que NO se debe hacer. Un manual sin prohibiciones
-   no gobierna nada. `forbidden_usages` del logo: mínimo 5.
+   no gobierna nada. `forbidden_usages` del logo: entre 2 y 5.
 4. `min_relative_width_pct` del logo es el campo más importante de esta sección:
    es la regla que el modelo de visión medirá directamente. Da un valor realista
    según el tipo de pieza.
@@ -50,7 +50,12 @@ REGLAS DE CONTENIDO
    imágenes, que capture el estilo en una sola instrucción densa.
 7. Coherencia total con el arquetipo y la audiencia recibidos. Si el público es
    Gen Z, la paleta y la fotografía deben reflejarlo, no ser genéricas.
-8. Mínimo 10 `visual_rules`, TODAS con modality='visual'.
+8. Entre 2 y 4 `visual_rules`, TODAS con modality='visual'. Prefiere el extremo
+   BAJO: el auditor del Módulo III recibe solo 8 fragmentos del manual por
+   consulta, así que una regla de más es una regla que puede no llegar a
+   evaluarse nunca. Elige las que MÁS protegen la marca y que un modelo de
+   visión pueda medir sin ambigüedad — tamaño de logo, paleta, contraste,
+   área de producto — y descarta las que dependan de interpretación.
 
 FORMATO
 Responde ÚNICAMENTE con JSON válido conforme al schema. Sin markdown.

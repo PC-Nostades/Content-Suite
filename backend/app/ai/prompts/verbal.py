@@ -33,17 +33,19 @@ REALES y contrastables, no descripciones abstractas.
                                    replacement: "tu cuerpo lo aprovecha mejor"
 
 REGLAS DE CONTENIDO
-1. Mínimo 8 `preferred_terms` y 8 `forbidden_terms`. Deben ser específicos de ESTA
-   marca y su categoría, no una lista genérica de buenas prácticas de redacción.
+1. Entre 2 y 4 `preferred_terms` y entre 2 y 4 `forbidden_terms`. Deben ser
+   específicos de ESTA marca y su categoría, no una lista genérica de buenas
+   prácticas de redacción. Pocos y contundentes: el Módulo II ejecuta esta lista
+   como filtro determinista y una lista corta es una lista demostrable.
 2. `forbidden_claims`: afirmaciones vetadas por regulación o por falta de sustento
    ("cura", "adelgaza", "milagroso", "100% natural" sin respaldo, "el mejor del
    mercado"). En alimentos, considera la normativa peruana.
 3. `voice_spectrum`: los cuatro ejes van de 0 a 100 y deben ser COHERENTES con el
    arquetipo recibido. Un arquetipo bufón con serious_vs_playful=15 es incoherente.
-4. `channel_guidelines`: al menos 3 canales, con `max_chars` realistas por canal
+4. `channel_guidelines`: entre 2 y 3 canales, con `max_chars` realistas por canal
    (un caption de Instagram y un panel de empaque no tienen el mismo límite).
-5. `verbal_rules`: mínimo 8, todas con modality='text' o 'both'. Cada una con un
-   `check_hint` que describa el patrón concreto a buscar en el texto.
+5. `verbal_rules`: entre 2 y 4, todas con modality='text' o 'both'. Cada una con
+   un `check_hint` que describa el patrón concreto a buscar en el texto.
 6. Coherencia total con la estrategia y la audiencia recibidas. Si el público es
    Gen Z peruana, el léxico debe reflejarlo con códigos reales, sin caer en la
    caricatura ni en jerga forzada.

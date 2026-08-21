@@ -105,11 +105,14 @@ class BrandStrategy(BaseModel):
     value_proposition: str
     brand_archetype: BrandArchetype
     personality_traits: list[str] = Field(
-        min_length=4, max_length=6, description="4 a 6 adjetivos que definen la personalidad."
+        min_length=2, max_length=4, description="2 a 4 adjetivos que definen la personalidad."
     )
-    differentiators: list[str] = Field(min_length=3, description="Qué hace distinta a esta marca.")
+    differentiators: list[str] = Field(
+        min_length=2, max_length=3, description="Qué hace distinta a esta marca."
+    )
     competitor_contrast: list[str] = Field(
         min_length=2,
+        max_length=2,
         description="Qué NO es esta marca, en contraste con lo genérico de la categoría.",
     )
 
@@ -118,23 +121,26 @@ class Audience(BaseModel):
     label: str = Field(description="Nombre corto del segmento. Ej: 'Gen Z urbana limeña'.")
     age_range: str
     description: str
-    psychographics: list[str] = Field(min_length=3)
+    psychographics: list[str] = Field(min_length=2, max_length=3)
     jobs_to_be_done: list[str] = Field(
-        min_length=2, description="Qué 'contrata' esta persona al comprar el producto."
+        min_length=2,
+        max_length=2,
+        description="Qué 'contrata' esta persona al comprar el producto.",
     )
-    pain_points: list[str] = Field(min_length=2)
+    pain_points: list[str] = Field(min_length=2, max_length=2)
     cultural_codes: list[str] = Field(
         min_length=2,
+        max_length=2,
         description="Referencias, jerga y códigos culturales locales que resuenan con este público.",
     )
-    media_habits: list[Channel] = Field(min_length=1)
+    media_habits: list[Channel] = Field(min_length=1, max_length=2)
 
 
 class StrategyStage(BaseModel):
     """Salida de la Etapa A. Es el fundamento que alimenta a las etapas B, C y D."""
 
     strategy: BrandStrategy
-    audiences: list[Audience] = Field(min_length=1, max_length=3)
+    audiences: list[Audience] = Field(min_length=1, max_length=1)
 
 
 # =============================================================================
@@ -161,7 +167,9 @@ class VoiceSpectrum(BaseModel):
 
 class PreferredTerm(BaseModel):
     use: str = Field(description="El término que SÍ se debe usar.")
-    instead_of: list[str] = Field(min_length=1, description="Los términos que reemplaza.")
+    instead_of: list[str] = Field(
+        min_length=1, max_length=2, description="Los términos que reemplaza."
+    )
     rationale: str
 
 
@@ -189,7 +197,7 @@ class GrammarStyle(BaseModel):
         default_factory=list, description="Vacío si la política es 'prohibido'."
     )
     exclamation_policy: str
-    capitalization_rules: list[str] = Field(min_length=1)
+    capitalization_rules: list[str] = Field(min_length=1, max_length=2)
     anglicism_policy: str
     numbers_and_units: str
 
@@ -197,8 +205,10 @@ class GrammarStyle(BaseModel):
 class MessagingPillar(BaseModel):
     name: str
     description: str
-    proof_points: list[str] = Field(min_length=2, description="Hechos que sostienen el pilar.")
-    sample_headlines: list[str] = Field(min_length=2)
+    proof_points: list[str] = Field(
+        min_length=2, max_length=2, description="Hechos que sostienen el pilar."
+    )
+    sample_headlines: list[str] = Field(min_length=2, max_length=2)
 
 
 class ChannelGuideline(BaseModel):
@@ -211,30 +221,34 @@ class ChannelGuideline(BaseModel):
 
 
 class VerbalIdentity(BaseModel):
-    tone_attributes: list[ToneAttribute] = Field(min_length=3, max_length=6)
+    tone_attributes: list[ToneAttribute] = Field(min_length=2, max_length=3)
     voice_spectrum: VoiceSpectrum
-    preferred_terms: list[PreferredTerm] = Field(min_length=8)
+    preferred_terms: list[PreferredTerm] = Field(min_length=2, max_length=8)
     forbidden_terms: list[ForbiddenTerm] = Field(
-        min_length=8,
+        min_length=2,
+        max_length=8,
         description=(
             "Términos vetados por marca o por tono. El Módulo II ejecutará esta "
             "lista como un filtro determinista, no como una sugerencia."
         ),
     )
     forbidden_claims: list[ForbiddenTerm] = Field(
-        min_length=4,
+        min_length=2,
+        max_length=4,
         description=(
             "Afirmaciones prohibidas por regulación o por falta de sustento: "
             "'cura', 'adelgaza', 'milagroso', '100% natural' sin respaldo, etc."
         ),
     )
     grammar_style: GrammarStyle
-    messaging_pillars: list[MessagingPillar] = Field(min_length=3)
-    taglines: list[str] = Field(min_length=3)
+    messaging_pillars: list[MessagingPillar] = Field(min_length=2, max_length=3)
+    taglines: list[str] = Field(min_length=2, max_length=3)
     boilerplate: str = Field(description="Párrafo estándar de cierre sobre la marca.")
-    channel_guidelines: list[ChannelGuideline] = Field(min_length=3)
+    channel_guidelines: list[ChannelGuideline] = Field(min_length=2, max_length=3)
     verbal_rules: list[Rule] = Field(
-        min_length=8, description="Do's y don'ts de texto, cada uno como una Rule verificable."
+        min_length=2,
+        max_length=8,
+        description="Do's y don'ts de texto, cada uno como una Rule verificable.",
     )
 
 
@@ -263,7 +277,7 @@ class TypefaceSpec(BaseModel):
     )
     fallback: str = Field(description="Ej: 'system-ui, sans-serif'.")
     role: Literal["headline", "subhead", "body", "accent", "legal"]
-    weights: list[str] = Field(min_length=1, description="Ej: ['400', '600', '700'].")
+    weights: list[str] = Field(min_length=1, max_length=2, description="Ej: ['400', '700'].")
     min_size_px_digital: int = Field(ge=6)
     min_size_pt_print: int = Field(ge=4)
     line_height: str
@@ -273,7 +287,9 @@ class TypefaceSpec(BaseModel):
 
 class LogoSpec(BaseModel):
     approved_variants: list[str] = Field(
-        min_length=2, description="Ej: 'full-color', 'monocromo negro', 'invertido blanco'."
+        min_length=2,
+        max_length=2,
+        description="Ej: 'full-color', 'monocromo negro', 'invertido blanco'.",
     )
     clear_space_multiplier: float = Field(
         ge=0,
@@ -294,10 +310,11 @@ class LogoSpec(BaseModel):
             "superior_izquierda", "superior_derecha", "inferior_izquierda",
             "inferior_derecha", "centro",
         ]
-    ] = Field(min_length=1)
-    allowed_backgrounds: list[str] = Field(min_length=1)
+    ] = Field(min_length=1, max_length=2)
+    allowed_backgrounds: list[str] = Field(min_length=1, max_length=2)
     forbidden_usages: list[str] = Field(
-        min_length=5,
+        min_length=2,
+        max_length=5,
         description="Ej: no rotar, no estirar, no aplicar sombras, no sobre fondos con ruido, no recolorear.",
     )
 
@@ -314,7 +331,8 @@ class PhotographyStyle(BaseModel):
         ge=0, le=100, description="Área mínima del encuadre que debe ocupar el producto."
     )
     forbidden_imagery: list[str] = Field(
-        min_length=4,
+        min_length=2,
+        max_length=4,
         description="Ej: stock corporativo genérico, fondos blancos puros, sobre-retoque de piel.",
     )
     prompt_seed: str = Field(
@@ -328,11 +346,13 @@ class PhotographyStyle(BaseModel):
 class CompositionRules(BaseModel):
     grid: str
     safe_area_pct: int = Field(ge=0, le=50, description="Margen mínimo libre, en % del borde.")
-    visual_hierarchy: list[str] = Field(min_length=2, description="Orden de lectura esperado.")
+    visual_hierarchy: list[str] = Field(
+        min_length=2, max_length=2, description="Orden de lectura esperado."
+    )
     max_text_coverage_pct: int = Field(ge=0, le=100)
     min_text_contrast_ratio: float = Field(ge=1, description="Ratio WCAG. Ej: 4.5")
     white_space_policy: str
-    forbidden_layouts: list[str] = Field(min_length=2)
+    forbidden_layouts: list[str] = Field(min_length=2, max_length=2)
 
 
 class IconographySpec(BaseModel):
@@ -340,26 +360,27 @@ class IconographySpec(BaseModel):
     stroke_width: str
     corner_radius: str
     usage_notes: str
-    forbidden: list[str] = Field(min_length=2)
+    forbidden: list[str] = Field(min_length=2, max_length=2)
 
 
 class PackagingSpec(BaseModel):
     mandatory_elements: list[str] = Field(
         min_length=2,
+        max_length=2,
         description=(
             "Elementos obligatorios del empaque. En Perú (Ley 30021) incluye los "
             "octógonos de advertencia 'ALTO EN ...' en la cara frontal."
         ),
     )
-    front_panel_hierarchy: list[str] = Field(min_length=3)
+    front_panel_hierarchy: list[str] = Field(min_length=2, max_length=3)
     legal_zone_notes: str
     material_and_finish: str
 
 
 class VisualIdentity(BaseModel):
-    color_palette: list[ColorSpec] = Field(min_length=4)
+    color_palette: list[ColorSpec] = Field(min_length=2, max_length=4)
     forbidden_colors: list[ColorSpec] = Field(default_factory=list)
-    typography: list[TypefaceSpec] = Field(min_length=2)
+    typography: list[TypefaceSpec] = Field(min_length=2, max_length=2)
     forbidden_fonts: list[str] = Field(default_factory=list)
     logo: LogoSpec
     photography: PhotographyStyle
@@ -367,7 +388,8 @@ class VisualIdentity(BaseModel):
     iconography: IconographySpec
     packaging: PackagingSpec
     visual_rules: list[Rule] = Field(
-        min_length=10,
+        min_length=2,
+        max_length=10,
         description="Todas con modality='visual' y un check_hint CUANTITATIVO.",
     )
 
@@ -379,9 +401,9 @@ class VisualIdentity(BaseModel):
 
 class Compliance(BaseModel):
     market: str = Field(description="Mercado de aplicación. Ej: 'Perú'.")
-    regulatory_notes: list[str] = Field(min_length=2)
-    required_disclaimers: list[str] = Field(min_length=1)
-    restricted_claims: list[Rule] = Field(min_length=3)
+    regulatory_notes: list[str] = Field(min_length=2, max_length=2)
+    required_disclaimers: list[str] = Field(min_length=1, max_length=2)
+    restricted_claims: list[Rule] = Field(min_length=2, max_length=3)
 
 
 # =============================================================================
@@ -395,7 +417,7 @@ class BrandManual(BaseModel):
     schema_version: Literal["1.0"] = "1.0"
     executive_summary: str = Field(default="", description="2-3 líneas que resumen la marca.")
     strategy: BrandStrategy
-    audiences: list[Audience] = Field(min_length=1, max_length=3)
+    audiences: list[Audience] = Field(min_length=1, max_length=1)
     verbal: VerbalIdentity
     visual: VisualIdentity
     compliance: Compliance
