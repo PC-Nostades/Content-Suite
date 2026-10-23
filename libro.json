@@ -1,0 +1,770 @@
+{
+  "verbal": {
+    "taglines": [
+      "De los Andes a tu pausa.",
+      "Quinua inflada. Plan resuelto.",
+      "Grano de Puno, ritmo de Lima."
+    ],
+    "boilerplate": "Kiwicha Pop es un snack de quinua inflada hecho con grano de Puno, pensado para acompañar tus días intensos. Tiene una propuesta práctica para llevar y comunica de frente sus ingredientes, porción, declaración de sin azúcar añadida y octógonos según su etiqueta.",
+    "verbal_rules": [
+      {
+        "id": "verbal.text.nombra_el_origen_como_grano",
+        "modality": "text",
+        "severity": "hard",
+        "rationale": "El origen de Puno es un diferenciador central y evita una representación andina genérica.",
+        "statement": "Nombra el origen como grano de Puno cuando comuniques la procedencia del producto.",
+        "check_hint": "Buscar menciones de origen del producto y verificar que incluyan la cadena exacta 'grano de Puno' o una declaración aprobada equivalente.",
+        "bad_example": "Hecho con ingredientes andinos.",
+        "good_example": "Hecho con grano de Puno.",
+        "channel_scope": []
+      },
+      {
+        "id": "verbal.text.usa_la_declaracion_sin_azuca",
+        "modality": "text",
+        "severity": "hard",
+        "rationale": "La afirmación debe cumplir la normativa aplicable y no transformarse en una promesa absoluta.",
+        "statement": "Usa la declaración sin azúcar añadida únicamente cuando coincida con la formulación y el rotulado aprobado.",
+        "check_hint": "Detectar 'sin azúcar', 'cero azúcar' y equivalentes; permitir solo la frase aprobada 'sin azúcar añadida' cuando exista autorización de producto.",
+        "bad_example": "Cero azúcar y totalmente libre de azúcar.",
+        "good_example": "Sin azúcar añadida, según la formulación declarada.",
+        "channel_scope": []
+      },
+      {
+        "id": "verbal.both.menciona_los_octogonos_cuand",
+        "modality": "both",
+        "severity": "hard",
+        "rationale": "La transparencia y el cumplimiento de la Ley de Alimentación Saludable son obligatorios.",
+        "statement": "Menciona los octógonos cuando la pieza comunique información nutricional o muestre el empaque.",
+        "check_hint": "En texto, buscar 'octógono' u 'octógonos' cuando corresponda; en piezas que muestren empaque, verificar que las advertencias sean visibles y no estén cubiertas.",
+        "bad_example": "Una opción sin advertencias: ni mires la etiqueta.",
+        "good_example": "Revisa los octógonos y la información nutricional en el empaque.",
+        "channel_scope": [
+          "packaging",
+          "ecommerce_pdp",
+          "punto_de_venta",
+          "instagram",
+          "tiktok"
+        ]
+      },
+      {
+        "id": "verbal.text.describe_el_producto_como_sn",
+        "modality": "text",
+        "severity": "hard",
+        "rationale": "La categoría y el ingrediente deben entenderse sin ambigüedad.",
+        "statement": "Describe el producto como snack de quinua inflada y no como cereal genérico.",
+        "check_hint": "Buscar el descriptor 'quinua inflada' en títulos, primeras líneas o descripciones de producto.",
+        "bad_example": "El cereal que te cambia el día.",
+        "good_example": "Un snack de quinua inflada para tu pausa.",
+        "channel_scope": []
+      },
+      {
+        "id": "verbal.text.presenta_el_origen_andino_co",
+        "modality": "text",
+        "severity": "hard",
+        "rationale": "La marca debe expresar orgullo andino con respeto, no como decoración folklorizante.",
+        "statement": "Presenta el origen andino con datos concretos y sin exotizarlo.",
+        "check_hint": "Bloquear combinaciones de origen con términos exotizantes como 'místico', 'ancestral' usado como promesa, 'exótico' o 'tribal'.",
+        "bad_example": "Un bocado místico de tierras ancestrales.",
+        "good_example": "Grano de Puno, en una pausa urbana.",
+        "channel_scope": []
+      },
+      {
+        "id": "verbal.text.usa_humor_basado_en_situacio",
+        "modality": "text",
+        "severity": "soft",
+        "rationale": "El arquetipo bufón necesita humor, pero la marca debe seguir siendo respetuosa y cómplice.",
+        "statement": "Usa humor basado en situaciones cotidianas de Lima sin ridiculizar a personas, territorios o culturas.",
+        "check_hint": "Revisar que el chiste se vincule con tráfico, clases, trabajo, transporte o pausas; bloquear burlas sobre origen, acento, clase o cuerpo.",
+        "bad_example": "Si tomas esto, dejas de parecer provinciano.",
+        "good_example": "El tráfico no se infla. Tu quinua sí.",
+        "channel_scope": [
+          "instagram",
+          "tiktok",
+          "facebook"
+        ]
+      },
+      {
+        "id": "verbal.text.habla_de_acompanar_tu_dia_o",
+        "modality": "text",
+        "severity": "hard",
+        "rationale": "El producto no debe hacer afirmaciones terapéuticas, de peso ni fisiológicas no sustentadas.",
+        "statement": "Habla de acompañar tu día o resolver una pausa, no de curar, adelgazar o transformar el cuerpo.",
+        "check_hint": "Buscar raíces 'cur', 'adelgaz', 'quem', 'desintoxic', 'fortalec' y expresiones de transformación corporal o terapéutica.",
+        "bad_example": "Te ayuda a adelgazar mientras estudias.",
+        "good_example": "Para acompañar tu media mañana.",
+        "channel_scope": []
+      },
+      {
+        "id": "verbal.text.manten_la_jerga_limena_moder",
+        "modality": "text",
+        "severity": "soft",
+        "rationale": "La complicidad debe sentirse natural y no como una caricatura de la audiencia.",
+        "statement": "Mantén la jerga limeña moderada: usa como máximo un giro coloquial por pieza corta.",
+        "check_hint": "Contar términos coloquiales de la lista 'causa', 'pata', 'jato', 'plan', 'buenazo', 'ya fue'; generar advertencia cuando haya más de uno en una pieza corta.",
+        "bad_example": "Causa, pata, ya fue, buenazo: corre a tu jato y ponte pilas.",
+        "good_example": "Causa, ¿ya tienes snack para la siguiente clase?",
+        "channel_scope": [
+          "instagram",
+          "tiktok",
+          "facebook"
+        ]
+      }
+    ],
+    "grammar_style": {
+      "locale": "es-PE",
+      "person": "tu",
+      "emoji_policy": "limitado",
+      "reading_level": "basico",
+      "allowed_emojis": [
+        "😮‍💨",
+        "👀",
+        "✨"
+      ],
+      "anglicism_policy": "Preferir español peruano claro; aceptar solo términos de uso extendido cuando no exista una alternativa natural, sin convertirlos en el centro del mensaje.",
+      "numbers_and_units": "Usar cifras para porciones y datos nutricionales; respetar las unidades y declaraciones del rotulado aprobado. Usar % sin espacio entre cifra y símbolo y g con espacio cuando corresponda al etiquetado.",
+      "exclamation_policy": "Usar como máximo un signo de exclamación por pieza y solo cuando aporte energía; evitar cadenas de exclamaciones.",
+      "max_sentence_words": 22,
+      "capitalization_rules": [
+        "Escribir Kiwicha Pop con mayúsculas iniciales.",
+        "Escribir quinua, grano de Puno y de los Andes en minúsculas salvo inicio de oración."
+      ],
+      "max_paragraph_sentences": 3
+    },
+    "voice_spectrum": {
+      "formal_vs_casual": 72,
+      "serious_vs_playful": 78,
+      "factual_vs_enthusiastic": 62,
+      "respectful_vs_irreverent": 68
+    },
+    "forbidden_terms": [
+      {
+        "term": "saludable",
+        "reason": "No debe usarse sin sustento nutricional específico y verificable.",
+        "severity": "hard",
+        "match_mode": "exact",
+        "replacement": "una opción práctica para tu pausa"
+      },
+      {
+        "term": "superfood",
+        "reason": "Es un anglicismo y puede sugerir beneficios no sustentados.",
+        "severity": "hard",
+        "match_mode": "exact",
+        "replacement": "quinua inflada con grano de Puno"
+      },
+      {
+        "term": "detox",
+        "reason": "Sugiere efectos sobre el organismo que el producto no sustenta.",
+        "severity": "hard",
+        "match_mode": "exact",
+        "replacement": "pausa práctica"
+      },
+      {
+        "term": "fitness",
+        "reason": "Reduce la relevancia del producto a una rutina deportiva que no define a la marca.",
+        "severity": "soft",
+        "match_mode": "exact",
+        "replacement": "tu día"
+      },
+      {
+        "term": "ancestral",
+        "reason": "Puede folklorizar el origen andino cuando se usa como adorno genérico.",
+        "severity": "soft",
+        "match_mode": "exact",
+        "replacement": "de los Andes"
+      },
+      {
+        "term": "místico",
+        "reason": "Presenta el origen andino de forma exotizante y poco precisa.",
+        "severity": "hard",
+        "match_mode": "exact",
+        "replacement": "de Puno"
+      },
+      {
+        "term": "premium",
+        "reason": "Contradice el posicionamiento accesible de precio medio.",
+        "severity": "soft",
+        "match_mode": "exact",
+        "replacement": "práctico y al alcance de tu día"
+      },
+      {
+        "term": "snack guilt-free",
+        "reason": "Moraliza el consumo y usa un anglicismo innecesario.",
+        "severity": "soft",
+        "match_mode": "exact",
+        "replacement": "una pausa sin drama"
+      }
+    ],
+    "preferred_terms": [
+      {
+        "use": "grano de Puno",
+        "rationale": "Nombra con precisión el origen central del producto.",
+        "instead_of": [
+          "ingrediente andino",
+          "sabor andino"
+        ]
+      },
+      {
+        "use": "quinua inflada",
+        "rationale": "Describe correctamente la categoría y el ingrediente.",
+        "instead_of": [
+          "cereal inflado",
+          "snack de cereal"
+        ]
+      },
+      {
+        "use": "sin azúcar añadida",
+        "rationale": "Comunica el atributo de acuerdo con la formulación y la normativa aplicable.",
+        "instead_of": [
+          "sin azúcar",
+          "cero azúcar"
+        ]
+      },
+      {
+        "use": "pausa",
+        "rationale": "Presenta el consumo cotidiano sin moralizar la comida.",
+        "instead_of": [
+          "premio",
+          "pecado"
+        ]
+      },
+      {
+        "use": "llevar",
+        "rationale": "Usa español claro y cercano.",
+        "instead_of": [
+          "consumir on the go"
+        ]
+      },
+      {
+        "use": "porción",
+        "rationale": "Es el término adecuado para un alimento.",
+        "instead_of": [
+          "dosis"
+        ]
+      },
+      {
+        "use": "octógonos",
+        "rationale": "Reconoce la información regulatoria de forma transparente.",
+        "instead_of": [
+          "sellos que no importan",
+          "advertencias escondidas"
+        ]
+      },
+      {
+        "use": "de los Andes",
+        "rationale": "Expresa el origen sin folklorizarlo.",
+        "instead_of": [
+          "ancestral",
+          "místico"
+        ]
+      }
+    ],
+    "tone_attributes": [
+      {
+        "name": "Humor cotidiano limeño",
+        "intensity": 4,
+        "definition": "Usa situaciones reconocibles de estudio, trabajo, tráfico y pausas para provocar una sonrisa sin convertir la marca en un personaje infantil.",
+        "sounds_like": "Llegaste tarde, pero al menos llegaste con snack. Ya fue, abre Kiwicha Pop.",
+        "does_not_sound_like": "¡Súper diversión nutritiva para campeones saludables! ¡Yuju!"
+      },
+      {
+        "name": "Energía cómplice",
+        "intensity": 4,
+        "definition": "Acompaña el ritmo del día con frases breves, ágiles y de igual a igual.",
+        "sounds_like": "Entre una clase y otra: una pausa que sí entra en tu mochila.",
+        "does_not_sound_like": "Estimado consumidor, le presentamos una solución óptima para su jornada."
+      },
+      {
+        "name": "Orgullo andino preciso",
+        "intensity": 5,
+        "definition": "Presenta el grano de Puno como origen real del producto, con respeto y sin usar símbolos andinos como decoración vacía.",
+        "sounds_like": "Quinua inflada hecha con grano de Puno. De los Andes a tu pausa.",
+        "does_not_sound_like": "Sabor ancestral místico con colores exóticos de toda la cordillera."
+      }
+    ],
+    "forbidden_claims": [
+      {
+        "term": "cura",
+        "reason": "Atribuye una propiedad terapéutica no permitida para un alimento sin autorización y sustento.",
+        "severity": "hard",
+        "match_mode": "stem",
+        "replacement": "acompaña tu pausa"
+      },
+      {
+        "term": "adelgaz",
+        "reason": "Atribuye reducción de peso al producto sin sustento autorizado.",
+        "severity": "hard",
+        "match_mode": "stem",
+        "replacement": "para disfrutar entre tus actividades"
+      },
+      {
+        "term": "milagros",
+        "reason": "Promete resultados extraordinarios y no verificables.",
+        "severity": "hard",
+        "match_mode": "stem",
+        "replacement": "una opción práctica"
+      },
+      {
+        "term": "100% natural",
+        "reason": "Es una afirmación absoluta que no corresponde comunicar sin sustento específico y puede inducir a error.",
+        "severity": "hard",
+        "match_mode": "regex",
+        "replacement": "hecho con quinua inflada y grano de Puno"
+      }
+    ],
+    "messaging_pillars": [
+      {
+        "name": "Origen que sí se cuenta",
+        "description": "El orgullo andino parte de un dato concreto: el producto está hecho con grano de Puno.",
+        "proof_points": [
+          "Declarar grano de Puno como origen central.",
+          "Evitar símbolos andinos usados solo como decoración."
+        ],
+        "sample_headlines": [
+          "De los Andes a tu pausa.",
+          "Grano de Puno. Plan limeño."
+        ]
+      },
+      {
+        "name": "Pausa para días intensos",
+        "description": "Kiwicha Pop acompaña clases, oficina, traslados, entrenamiento y salidas sin exigir una rutina específica.",
+        "proof_points": [
+          "Formato portátil.",
+          "Momentos de consumo de media mañana, media tarde y entre actividades."
+        ],
+        "sample_headlines": [
+          "Entre una clase y otra, ya tienes plan.",
+          "Para cuando Lima te pone en modo corre."
+        ]
+      },
+      {
+        "name": "Transparencia sin floro",
+        "description": "La marca informa con claridad sobre ingredientes, porción, ausencia de azúcar añadida y octógonos.",
+        "proof_points": [
+          "Usar la declaración sin azúcar añadida solo según formulación y norma.",
+          "No ocultar octógonos."
+        ],
+        "sample_headlines": [
+          "Sin floro: mira la etiqueta.",
+          "Lo que tiene, lo dice. Lo que no, también."
+        ]
+      }
+    ],
+    "channel_guidelines": [
+      {
+        "channel": "instagram",
+        "cta_style": "Cercano y accionable: 'guárdalo', 'compártelo con tu pata', 'encuéntralo'. No usar urgencia falsa.",
+        "max_chars": 2200,
+        "structure": "Hook de 1 línea → situación limeña → producto y atributo sustentado → origen de Puno → CTA breve.",
+        "hashtag_policy": "Máximo 5 hashtags; priorizar #KiwichaPop, #GranoDePuno y hashtags contextuales. No usar hashtags de promesas de salud.",
+        "tone_adjustment": "Más visual, juguetón y conversacional; mantener precisión en atributos y evitar jerga forzada."
+      },
+      {
+        "channel": "tiktok",
+        "cta_style": "Invitar a comentar, guardar o compartir; usar preguntas sobre situaciones reales de Lima.",
+        "max_chars": 900,
+        "structure": "Hook hablado o en texto de 1 a 2 segundos → escena reconocible → reacción o remate → dato claro del producto → CTA.",
+        "hashtag_policy": "Máximo 4 hashtags; combinar marca, origen y contexto. No usar etiquetas como #detox, #adelgazar o #superfood.",
+        "tone_adjustment": "Ritmo rápido y humor de observación; no sacrificar la lectura de la información regulatoria."
+      },
+      {
+        "channel": "packaging",
+        "cta_style": "No usar CTA promocional; priorizar instrucciones o invitaciones breves como 'abre y comparte'.",
+        "max_chars": 180,
+        "structure": "Nombre del producto → descriptor de quinua inflada → origen y atributo permitido → información obligatoria visible.",
+        "hashtag_policy": "No usar hashtags.",
+        "tone_adjustment": "Directo, legible y transparente; el humor puede aparecer en frases secundarias, nunca ocultando ingredientes, porción u octógonos."
+      }
+    ]
+  },
+  "visual": {
+    "logo": {
+      "forbidden_usages": [
+        "No rotar el logo.",
+        "No estirar ni comprimir el logo.",
+        "No recolorear el logo con tonos fuera de las variantes aprobadas.",
+        "No aplicar sombras, biseles, degradados ni efectos 3D.",
+        "No colocar el logo sobre fotografías con textura o bajo contraste."
+      ],
+      "approved_variants": [
+        "full-color sobre Crema Quinua",
+        "monocromo Azul Noche Lima"
+      ],
+      "min_size_mm_print": 12,
+      "allowed_placements": [
+        "superior_izquierda",
+        "superior_derecha"
+      ],
+      "allowed_backgrounds": [
+        "#FFF4D6",
+        "#F05A28"
+      ],
+      "min_size_px_digital": 64,
+      "clear_space_multiplier": 0.5,
+      "min_relative_width_pct": 8
+    },
+    "packaging": {
+      "legal_zone_notes": "Reservar una zona frontal limpia y no texturizada para los octógonos. Nunca reducirlos, ocultarlos, girarlos, cubrirlos con stickers, ilustraciones o fotografías, ni colocarlos en el reverso cuando la norma exija frente. Las afirmaciones 'grano de Puno' y 'sin azúcar añadida' deben ser comprobables, no insinuar beneficios de salud y respetar la formulación y rotulado peruano.",
+      "mandatory_elements": [
+        "Octógonos frontales de advertencia de la Ley 30021 que correspondan a la formulación: ALTO EN AZÚCAR, ALTO EN SODIO y/o ALTO EN GRASAS SATURADAS; si corresponden los tres, mostrar los tres.",
+        "Logo Kiwicha Pop."
+      ],
+      "material_and_finish": "BOPP mate o laminado mate de precio medio, con área puntual de barniz brillante sobre el producto inflado o un acento Pop. Evitar acabados metalizados premium, texturas rústicas artificiales y materiales que reduzcan la lectura de octógonos o ingredientes.",
+      "front_panel_hierarchy": [
+        "1. Logo con ancho mínimo equivalente al 8% del ancho del frente.",
+        "2. Denominación y variedad del snack.",
+        "3. Visual apetitoso del producto y declaración 'grano de Puno' en una zona claramente legible."
+      ]
+    },
+    "typography": [
+      {
+        "role": "headline",
+        "family": "Space Grotesk",
+        "weights": [
+          "600",
+          "700"
+        ],
+        "fallback": "Arial, sans-serif",
+        "case_rules": "Titulares en sentence case o mayúsculas breves; no usar más de 8 palabras en mayúsculas continuas.",
+        "line_height": "0.95–1.05",
+        "letter_spacing": "-0.02em",
+        "min_size_pt_print": 16,
+        "min_size_px_digital": 24
+      },
+      {
+        "role": "body",
+        "family": "DM Sans",
+        "weights": [
+          "400",
+          "500"
+        ],
+        "fallback": "Arial, sans-serif",
+        "case_rules": "Texto informativo en sentence case; priorizar frases cortas y directas.",
+        "line_height": "1.2–1.4",
+        "letter_spacing": "0",
+        "min_size_pt_print": 9,
+        "min_size_px_digital": 16
+      }
+    ],
+    "composition": {
+      "grid": "Sistema de 4 columnas en digital y retícula modular de 4 mm en impresión; alinear logo, titular, producto y datos en ejes claros.",
+      "safe_area_pct": 5,
+      "visual_hierarchy": [
+        "logo",
+        "situación o titular humorístico"
+      ],
+      "forbidden_layouts": [
+        "No cubrir el producto con titulares o stickers.",
+        "No ubicar octógonos detrás de elementos gráficos."
+      ],
+      "white_space_policy": "Mantener al menos 10% de área libre en piezas digitales y 8% en frentes de empaque; concentrar el humor en un punto visual y reservar zonas limpias para datos legales.",
+      "max_text_coverage_pct": 35,
+      "min_text_contrast_ratio": 4.5
+    },
+    "iconography": {
+      "style": "filled",
+      "forbidden": [
+        "No usar íconos de chakana, tejidos o símbolos ceremoniales como adornos sin contexto.",
+        "No usar íconos médicos, cruces de salud, escudos o rayos que sugieran beneficios no sustentados."
+      ],
+      "usage_notes": "Íconos simples, geométricos y levemente juguetones para transporte, pausa, clases, oficina y compartir. Usar máximo 5 íconos por pieza y solo para información funcional.",
+      "stroke_width": "2 px a 3 px en íconos digitales; equivalente mínimo de 0.5 mm en impresión",
+      "corner_radius": "8 px o 20% del módulo"
+    },
+    "photography": {
+      "mood": "Energía cotidiana, humor cómplice y orgullo andino contemporáneo; espontánea, urbana y accesible, nunca infantil ni solemne.",
+      "lighting": "Luz natural lateral o ambiental urbana, sombras suaves y exposición limpia; sin flash directo ni iluminación de gimnasio excesivamente dramática.",
+      "prompt_seed": "Fotografía editorial vertical 9:16 de jóvenes limeños de 18 a 26 años, diversos y auténticos, compartiendo Kiwicha Pop en una pausa entre clases o durante un traslado urbano, humor cómplice y energía cotidiana, empaque visible ocupando al menos 25% del encuadre, referencia explícita y respetuosa al grano de Puno, luz natural lateral, sombras suaves, Lima contemporánea, color grading con #F05A28 #2D8C83 #B9D83B sobre #FFF4D6 y #171717, piel natural, profundidad de campo media, sin estética fitness aspiracional, sin folklore genérico, sin filtros sepia ni retoque excesivo.",
+      "color_grading": "Contraste medio, saturación moderada con acentos Naranja Pop, Verde Andino Pop y Lima Eléctrico; tonos de piel naturales, sin filtros sepia ni paletas folklorizantes.",
+      "depth_of_field": "Profundidad de campo media; rostro, manos, empaque y producto reconocibles cuando sean parte de la acción. Desenfoque de fondo moderado, nunca suficiente para ocultar la marca.",
+      "product_presence": "En piezas de producto, el empaque debe ser reconocible y mostrar al menos una cara con logo; el grano inflado puede aparecer como detalle de consumo, sin promesas nutricionales visuales.",
+      "forbidden_imagery": [
+        "No usar stock corporativo genérico.",
+        "No usar fondos blancos puros como estilo principal.",
+        "No aplicar sobre-retoque de piel.",
+        "No mostrar montañas, textiles o símbolos andinos como utilería sin relación explícita con Puno."
+      ],
+      "subject_guidelines": "Mostrar jóvenes de 18 a 26 años en Lima en pausas reales entre clases, oficina, transporte, caminatas, reuniones pequeñas o entrenamiento no profesional. Integrar el empaque y declarar visualmente el grano de Puno mediante producto, etiqueta o texto preciso; no usar símbolos andinos mezclados como decoración genérica.",
+      "people_representation": "Diversidad realista de rasgos, tonos de piel, cuerpos y estilos urbanos peruanos; expresiones espontáneas de complicidad, sorpresa o alivio. Evitar poses fitness aspiracionales y estereotipos culturales.",
+      "hero_product_min_area_pct": 25
+    },
+    "visual_rules": [
+      {
+        "id": "visual.visual.haz_que_el_logo_ocupe_al_men",
+        "modality": "visual",
+        "severity": "hard",
+        "rationale": "La marca debe ser reconocible en feeds, anaquel y escenas urbanas de alta competencia visual.",
+        "statement": "Haz que el logo ocupe al menos el 8% del ancho total de la pieza y conserve su zona de resguardo.",
+        "check_hint": "Medir el ancho del bounding box del logo dividido por el ancho total de la pieza; debe ser >= 0.08, y verificar un espacio libre perimetral >= 0.5 veces la altura del logo.",
+        "bad_example": "Logo de 4% del ancho, pegado a un titular y parcialmente cubierto.",
+        "good_example": "Logo de 10% del ancho, separado de otros elementos por 0.5x su altura.",
+        "channel_scope": []
+      },
+      {
+        "id": "visual.visual.usa_unicamente_colores_de_la",
+        "modality": "visual",
+        "severity": "hard",
+        "rationale": "La paleta debe construir reconocimiento y evitar una estética de golosina o folklorismo genérico.",
+        "statement": "Usa únicamente colores de la paleta declarada, salvo fotografías realistas y colores regulatorios de los octógonos.",
+        "check_hint": "Contar colores planos presentes fuera de la paleta declarada y colores regulatorios permitidos; debe haber 0 colores no declarados en elementos gráficos.",
+        "bad_example": "Uso dominante de fucsia neón no declarado.",
+        "good_example": "Fondo #FFF4D6 con titulares #171717 y acentos #F05A28.",
+        "channel_scope": []
+      },
+      {
+        "id": "visual.visual.manten_el_contraste_entre_te",
+        "modality": "visual",
+        "severity": "hard",
+        "rationale": "La comunicación directa exige lectura rápida en transporte, campus y pantallas móviles.",
+        "statement": "Mantén el contraste entre texto y fondo en un mínimo de 4.5:1.",
+        "check_hint": "Calcular el ratio de contraste WCAG entre cada bloque de texto y su fondo; todos los textos normales deben ser >= 4.5:1.",
+        "bad_example": "Texto #B9D83B sobre #FFF4D6.",
+        "good_example": "Texto #171717 sobre #FFF4D6.",
+        "channel_scope": []
+      },
+      {
+        "id": "visual.visual.limita_la_cobertura_total_de",
+        "modality": "visual",
+        "severity": "soft",
+        "rationale": "El humor debe convivir con el producto y la información sin convertir la comunicación en un muro textual.",
+        "statement": "Limita la cobertura total de texto al 35% del área de la pieza.",
+        "check_hint": "Segmentar píxeles ocupados por caracteres y dividirlos por el área total; debe ser <= 0.35.",
+        "bad_example": "Texto pequeño y abundante cubriendo casi toda la imagen.",
+        "good_example": "Titular breve, tres datos y una llamada a la acción dentro de un tercio del lienzo.",
+        "channel_scope": [
+          "instagram",
+          "tiktok",
+          "ecommerce_pdp",
+          "ooh",
+          "packaging"
+        ]
+      },
+      {
+        "id": "visual.visual.muestra_el_producto_ocupando",
+        "modality": "visual",
+        "severity": "hard",
+        "rationale": "El snack debe ser portable, tangible y reconocible, no un accesorio secundario.",
+        "statement": "Muestra el producto ocupando al menos el 25% del encuadre en fotografías hero.",
+        "check_hint": "Medir el área del bounding box del producto o empaque dividido por el área total del encuadre; debe ser >= 0.25.",
+        "bad_example": "La bolsa aparece diminuta al fondo y ocupa 8%.",
+        "good_example": "Bolsa y producto ocupan 30% del encuadre y el logo se lee.",
+        "channel_scope": [
+          "instagram",
+          "tiktok",
+          "ecommerce_pdp",
+          "facebook",
+          "ooh"
+        ]
+      },
+      {
+        "id": "visual.visual.incluye_una_referencia_visua",
+        "modality": "visual",
+        "severity": "hard",
+        "rationale": "El origen es un diferenciador central y no debe reducirse a patrones andinos decorativos.",
+        "statement": "Incluye una referencia visual o textual explícita a 'grano de Puno' cuando el origen sea parte del mensaje.",
+        "check_hint": "Verificar binariamente que la frase 'grano de Puno' sea legible o que exista una representación directa del grano acompañada de la etiqueta Puno; debe cumplirse al menos una.",
+        "bad_example": "Uso de montañas y textiles sin mencionar Puno ni el grano.",
+        "good_example": "Texto 'grano de Puno' junto a una imagen identificable del producto.",
+        "channel_scope": [
+          "packaging",
+          "instagram",
+          "tiktok",
+          "ecommerce_pdp",
+          "facebook"
+        ]
+      }
+    ],
+    "color_palette": [
+      {
+        "hex": "#F05A28",
+        "name": "Naranja Pop",
+        "role": "primary",
+        "usage_notes": "Color energético y humorístico para una marca bufon contemporánea; conecta con la intensidad urbana y destaca en anaquel y formatos verticales. Usar como masas, franjas o fondos controlados.",
+        "max_area_pct": 40,
+        "never_pair_with": [
+          "#7B1E3A",
+          "#6B4F2A"
+        ],
+        "pairs_well_with": [
+          "#171717",
+          "#FFF4D6",
+          "#2D8C83"
+        ]
+      },
+      {
+        "hex": "#171717",
+        "name": "Azul Noche Lima",
+        "role": "primary",
+        "usage_notes": "Negro cálido casi carbón para texto, contraste y una lectura directa, profesional sin rigidez. Evita el negro brillante de una golosina genérica.",
+        "max_area_pct": 45,
+        "never_pair_with": [
+          "#111111"
+        ],
+        "pairs_well_with": [
+          "#F05A28",
+          "#FFF4D6",
+          "#B9D83B"
+        ]
+      },
+      {
+        "hex": "#FFF4D6",
+        "name": "Crema Quinua",
+        "role": "background",
+        "usage_notes": "Fondo cálido inspirado en el grano y en soportes accesibles de precio medio; aporta cercanía y permite que los datos nutricionales se lean con claridad.",
+        "max_area_pct": 70,
+        "never_pair_with": [
+          "#F7F7F7"
+        ],
+        "pairs_well_with": [
+          "#171717",
+          "#F05A28",
+          "#2D8C83"
+        ]
+      },
+      {
+        "hex": "#2D8C83",
+        "name": "Verde Andino Pop",
+        "role": "secondary",
+        "usage_notes": "Verde azulado contemporáneo para vincular el origen andino sin convertirlo en decoración folklorizante. Usar en bloques informativos, acentos y recursos de navegación.",
+        "max_area_pct": 25,
+        "never_pair_with": [
+          "#7B1E3A"
+        ],
+        "pairs_well_with": [
+          "#FFF4D6",
+          "#171717",
+          "#F05A28"
+        ]
+      }
+    ],
+    "forbidden_fonts": [
+      "Comic Sans MS",
+      "Papyrus",
+      "Lobster",
+      "Brush Script MT"
+    ],
+    "forbidden_colors": [
+      {
+        "hex": "#6B4F2A",
+        "name": "Marrón folklorizante",
+        "role": "accent",
+        "usage_notes": "Prohibido como código dominante o textura decorativa: puede reducir el origen andino a una estética rústica genérica.",
+        "max_area_pct": 0,
+        "never_pair_with": [
+          "#F05A28",
+          "#2D8C83"
+        ],
+        "pairs_well_with": []
+      },
+      {
+        "hex": "#FF00A8",
+        "name": "Fucsia neón no declarado",
+        "role": "accent",
+        "usage_notes": "Prohibido para evitar una estética de golosina estridente desconectada del origen y de la comunicación transparente.",
+        "max_area_pct": 0,
+        "never_pair_with": [
+          "#FFF4D6"
+        ],
+        "pairs_well_with": []
+      }
+    ]
+  },
+  "strategy": {
+    "mission": "Hacer más fácil elegir un snack de quinua inflada con sabor a energía peruana, usando grano de Puno y comunicando sus atributos de manera clara, entretenida y responsable.",
+    "category": "Snack de quinua inflada",
+    "brand_name": "Kiwicha Pop",
+    "brand_archetype": "bufon",
+    "differentiators": [
+      "Declara grano de Puno como origen central del producto, no como decoración cultural.",
+      "No tiene azúcar añadida, atributo que debe comunicarse únicamente de acuerdo con la formulación y la normativa aplicable.",
+      "Convierte un ingrediente asociado a los Andes en un snack urbano, portátil y visualmente entretenido."
+    ],
+    "value_proposition": "Un snack de quinua inflada para llevar a clases, la oficina, el entrenamiento o una salida, con una propuesta de sabor y energía cotidiana vinculada al origen andino, sin azúcar añadida y con información nutricional comunicada sin exageraciones ni ocultar octógonos.",
+    "personality_traits": [
+      "Divertida sin ser infantil",
+      "Profesional sin sonar rígida",
+      "Directa y transparente",
+      "Energética"
+    ],
+    "competitor_contrast": [
+      "No es un snack genérico que usa colores andinos sin explicar de dónde proviene su grano.",
+      "No es una golosina disfrazada de bienestar: no promete beneficios nutricionales que la etiqueta no sustente."
+    ],
+    "positioning_statement": "Para la Gen Z urbana peruana de 18 a 26 años en Lima, Kiwicha Pop es un snack de quinua inflada que acompaña sus días intensos con una opción práctica y con orgullo andino porque está hecho con grano de Puno y no tiene azúcar añadida."
+  },
+  "audiences": [
+    {
+      "label": "Gen Z urbana limeña activa",
+      "age_range": "18-26 años",
+      "description": "Personas que viven, estudian o trabajan en Lima y alternan clases, primeras experiencias laborales, traslados, entrenamiento y encuentros con amistades. Compran snacks para resolver antojos o pausas durante el día y descubren productos principalmente en Instagram y TikTok. Buscan propuestas con personalidad, pero detectan rápidamente el marketing exagerado o la apropiación superficial de códigos andinos.",
+      "pain_points": [
+        "Los snacks percibidos como más nutritivos suelen parecer aburridos, caros o dirigidos exclusivamente a personas fitness.",
+        "La categoría usa con frecuencia mensajes vagos como natural, ligero o saludable sin explicar qué respalda realmente la promesa."
+      ],
+      "media_habits": [
+        "instagram",
+        "tiktok"
+      ],
+      "cultural_codes": [
+        "Pausas entre clases en universidades e institutos de Lima, especialmente al salir de una clase y antes del siguiente traslado.",
+        "Comer en la combi, el Metropolitano, el corredor, el taxi por aplicativo o caminando entre actividades; el empaque debe ser fácil de abrir y guardar."
+      ],
+      "psychographics": [
+        "Valora marcas con una razón de ser visible y verificable, no solo frases de propósito.",
+        "Quiere consumir algo práctico sin sentir que eligió una opción aburrida o excesivamente restrictiva.",
+        "Se identifica con una peruanidad urbana que puede incluir orgullo por ingredientes andinos sin sentirse tradicionalista."
+      ],
+      "jobs_to_be_done": [
+        "Funcional: resolver un snack portátil para comer entre clases, durante el traslado, en la oficina, antes o después de entrenar o en una salida, sin azúcar añadida y con información clara en el empaque.",
+        "Emocional: sentir que una pausa cotidiana puede tener energía y personalidad, sin culpa fabricada ni discurso nutricional exagerado."
+      ]
+    }
+  ],
+  "compliance": {
+    "market": "Perú",
+    "regulatory_notes": [
+      "Las comunicaciones y el etiquetado deben observar la Ley de Promoción de la Alimentación Saludable para Niños, Niñas y Adolescentes y su Manual de Advertencias Publicitarias, incluyendo las advertencias octogonales cuando correspondan por la composición del producto.",
+      "La publicidad debe ser veraz, comprobable y no inducir a error respecto de ingredientes, origen, formulación, propiedades nutricionales, porciones o precio, conforme a las normas peruanas de protección al consumidor y publicidad comercial."
+    ],
+    "restricted_claims": [
+      {
+        "id": "compliance.text.no_afirmar_que_kiwicha_pop_e",
+        "modality": "text",
+        "severity": "hard",
+        "rationale": "La estrategia prohíbe presentar el producto como una golosina disfrazada de bienestar y el cliente exige respaldo nutricional para cualquier uso de \"saludable\".",
+        "statement": "No afirmar que Kiwicha Pop es \"saludable\" ni usar expresiones equivalentes si la afirmación no está respaldada por la composición nutricional y la normativa aplicable.",
+        "check_hint": "buscar las palabras 'saludable', 'sano', 'salud', 'bienestar' y equivalentes usados como atributo general del producto; bloquear si no existe una justificación nutricional aprobada y documentada",
+        "bad_example": "El snack saludable que necesitas todos los días.",
+        "good_example": "Snack de quinua inflada con grano de Puno y sin azúcar añadida.",
+        "channel_scope": []
+      },
+      {
+        "id": "compliance.both.no_atribuir_al_producto_prop",
+        "modality": "both",
+        "severity": "hard",
+        "rationale": "Un snack no debe presentarse como medicamento ni generar expectativas sanitarias no autorizadas o no demostradas.",
+        "statement": "No atribuir al producto propiedades curativas, preventivas, terapéuticas ni beneficios para tratar enfermedades o condiciones médicas.",
+        "check_hint": "buscar los lemas 'cura', 'sana', 'previene', 'trata', 'combate', 'controla' y 'fortalece las defensas' aplicados a enfermedades, síntomas o condiciones médicas; en imágenes, detectar esos lemas o equivalentes visibles",
+        "bad_example": "Cura la anemia y previene la diabetes.",
+        "good_example": "Una pausa práctica con sabor andino.",
+        "channel_scope": []
+      },
+      {
+        "id": "compliance.both.usar_sin_azucar_anadida_unic",
+        "modality": "both",
+        "severity": "hard",
+        "rationale": "La propuesta de valor incluye el atributo, pero debe comunicarse exactamente según la formulación y sin confundirlo con \"sin azúcar\".",
+        "statement": "Usar \"sin azúcar añadida\" únicamente si la formulación y el etiquetado cumplen las condiciones normativas aplicables, sin convertirlo en una promesa de ausencia total de azúcares.",
+        "check_hint": "buscar 'sin azúcar añadida', 'sin azúcar', 'cero azúcar', '0 azúcar' y equivalentes; exigir evidencia de formulación para la primera expresión y bloquear las demás si el producto contiene azúcares; verificar que cualquier aclaración obligatoria sea visible",
+        "bad_example": "Cero azúcar, totalmente libre de azúcar.",
+        "good_example": "Sin azúcar añadida. Contiene azúcares naturalmente presentes.",
+        "channel_scope": []
+      }
+    ],
+    "required_disclaimers": [
+      "Si el producto supera los parámetros técnicos aplicables, incluir las advertencias octogonales correspondientes en el empaque y en las piezas publicitarias cuando la normativa exija su reproducción.",
+      "Cuando se comunique el atributo \"sin azúcar añadida\", acompañarlo, cuando corresponda por la formulación y las reglas de etiquetado, de una aclaración visible como: \"Contiene azúcares naturalmente presentes\"."
+    ]
+  },
+  "schema_version": "1.0",
+  "executive_summary": "Un snack de quinua inflada para llevar a clases, la oficina, el entrenamiento o una salida, con una propuesta de sabor y energía cotidiana vinculada al origen andino, sin azúcar añadida y con información nutricional comunicada sin exageraciones ni ocultar octógonos."
+}
